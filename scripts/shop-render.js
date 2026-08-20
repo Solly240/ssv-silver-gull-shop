@@ -459,7 +459,7 @@
   // class so neither module can break the other and the shop still looks right
   // with ship-combat disabled.
   const CSS = `
-.sgshop{position:fixed;inset:0;z-index:62;display:flex;gap:0;background:
+.sgshop{position:fixed;inset:0;z-index:60;display:flex;gap:0;background:
    radial-gradient(1200px 700px at 30% -10%,rgba(29,106,134,.22),transparent 60%),#03070d;
   font-family:'Courier New',monospace;color:#cfeef0;overflow:hidden;}
 .sgshop *{box-sizing:border-box;}
@@ -569,11 +569,12 @@
 .sgshop .inv-tile .it-tr{position:absolute;top:6px;right:6px;z-index:2;}
 .sgshop .inv-empty{grid-column:1/-1;color:#6f97a6;font-size:12px;letter-spacing:1px;text-align:center;padding:28px 10px;}
 .sgshop .sh-refuse{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:40px 20px;}
+.sgshop .sh-refuse.sh-note .rf-big{color:#f2b03d;text-shadow:0 0 14px rgba(242,176,61,.35);}
 .sgshop .sh-refuse .rf-big{font-size:17px;font-weight:700;letter-spacing:2px;color:#e0454d;text-shadow:0 0 14px rgba(224,69,77,.4);}
 .sgshop .sh-refuse .rf-sub{font-size:12px;color:#9fc0cc;max-width:420px;line-height:1.6;}
 @media (max-width:820px){.sgshop{flex-direction:column;}.sgshop .con-left{flex-basis:auto;border-right:none;border-bottom:1px solid #12455a;}}
 /* hover detail popup — pointer-events:none so the tile buttons still work */
-.sgshop-invpop{position:fixed;z-index:130;width:264px;pointer-events:none;font-family:'Courier New',monospace;
+.sgshop-invpop{position:fixed;z-index:66;width:264px;pointer-events:none;font-family:'Courier New',monospace;
   background:linear-gradient(180deg,#0d2334,#081521);border:1px solid #1d6a86;border-radius:13px;box-shadow:0 16px 46px rgba(0,0,0,.65);
   padding:13px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;color:#cfeef0;}
 .sgshop-invpop.show{opacity:1;transform:none;}
@@ -589,7 +590,7 @@
 .sgshop-invpop .ip-row.total{border-top:1px dashed #12455a;margin-top:5px;padding-top:5px;color:#f2b03d;}
 .sgshop-invpop .ip-row.total b{color:#f2b03d;font-size:13px;}
 /* the shop-list popup + the GM item browser */
-.sgsl-overlay{position:fixed;inset:0;z-index:125;background:rgba(2,6,12,.72);display:flex;align-items:center;justify-content:center;
+.sgsl-overlay{position:fixed;inset:0;z-index:64;background:rgba(2,6,12,.72);display:flex;align-items:center;justify-content:center;
   font-family:'Courier New',monospace;color:#cfeef0;}
 .sgsl{width:min(820px,94vw);max-height:84vh;display:flex;flex-direction:column;border:1px solid #1d6a86;border-radius:16px;overflow:hidden;
   background:linear-gradient(180deg,#0c2334,#081521);box-shadow:0 26px 74px rgba(0,0,0,.72);}
@@ -936,7 +937,10 @@
     const views = refuses ? [] : (ctx.mode === "sell" ? sellViews(ctx) : buyViews(ctx));
     const canSwitchSide = ctx.mode === "sell" ? true : true;
 
-    const body = refuses
+    const body = (!refuses && !views.length && ctx.sideEmptyReason)
+      ? `<div class="sh-refuse sh-note"><div class="rf-big">${esc(ctx.sideEmptyReason.title)}</div>` +
+        `<div class="rf-sub">${esc(ctx.sideEmptyReason.text)}</div></div>`
+      : refuses
       ? `<div class="sh-refuse"><div class="rf-big">THEY REFUSE TO DEAL WITH YOU</div>` +
         `<div class="rf-sub">Word travels. ${esc(shop.name)} answers to ${esc(ctx.factionName || "their patrons")}, ` +
         `and your standing there is ${esc(tierOf(ctx.standing).label.toLowerCase())}. ` +
@@ -1063,6 +1067,7 @@
       ["markup",   "📈 Markup override…",      shop.markupOverride == null ? "auto" : `×${shop.markupOverride}`],
       ["sellrate", "📉 Sell-rate override…",   shop.sellRateOverride == null ? "auto" : `×${shop.sellRateOverride}`],
       ["cash",     "⛁ Till…",                  money(shop.cash || 0)],
+      ["shipactor", "🚀 Ship cargo actor…",    ctx.shipActorName || "NOT SET"],
     ];
     root.innerHTML =
       `<div class="con-left">${leftPanel(ctx)}</div>` +

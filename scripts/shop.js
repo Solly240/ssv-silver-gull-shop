@@ -170,6 +170,15 @@ function getShipActor() {
   return game.actors?.find((a) => a.name === "SSV Silver Gull" && !a.getFlag?.(SHIPCOMBAT_ID, "shipIcon")) || null;
 }
 const userActor = (userId) => (userId ? game.users.get(userId)?.character : game.user.character) || null;
+/**
+ * The actor "YOUR ITEMS" and "YOUR PURSE" refer to on this client: the assigned
+ * character, or failing that the token you currently have selected. A GM
+ * usually has no assigned character, so without the fallback both sell lists
+ * come up empty and the SELL tab looks broken.
+ */
+function myActor() {
+  return game.user.character || canvas?.tokens?.controlled?.[0]?.actor || null;
+}
 
 /** Owned items as plain view-models the renderer can price. */
 function physicalItems(actor) {
@@ -303,7 +312,7 @@ function drawShop() {
   const L = getLocations();
   const loc = L.places[shop.locationId] || null;
   const cfg = getConfig();
-  const actor = game.user.character;
+  const actor = myActor();
   const purse = actorPurse(actor);
   const standing = standingFor(shop.faction);
   const ship = getShipActor();
@@ -315,8 +324,27 @@ function drawShop() {
     blockedReason = "THE CREW ARE NOT DOCKED HERE ANY MORE.";
   else if (!shop.open && !game.user.isGM) blockedReason = "CLOSED.";
 
+  // An empty grid reads as a broken button; say what is actually missing.
+  let sideEmptyReason = null;
+  const sideActor = _side === "ship" ? ship : actor;
+  if (!sideActor) {
+    sideEmptyReason = _side === "ship"
+      ? { title: "NO SHIP CARGO ACTOR",
+          text: game.user.isGM
+            ? "This world has no ship cargo actor set. Open ⚙ GM → Ship cargo actor… and pick the one holding the Gull's inventory."
+            : "The GM has not set the ship's cargo actor yet." }
+      : { title: "NO CHARACTER SELECTED",
+          text: game.user.isGM
+            ? "You have no assigned character. Select a token on the canvas and it will use that actor, or switch to SHIP CARGO."
+            : "No character is assigned to you. Ask the GM to assign one." };
+  } else if (_mode === "sell" && !physicalItems(sideActor).length) {
+    sideEmptyReason = { title: "NOTHING TO SELL",
+      text: `${sideActor.name} is carrying nothing the shop could put a price on.` };
+  }
+
   const ctx = {
     isGM: game.user.isGM, userId: game.user.id,
+    sideEmptyReason,
     index, catalogue: CATALOGUE, shop, loc, standing,
     overrides: getOverrides(), factionName: factionName(shop.faction),
     config: cfg,
@@ -331,6 +359,7 @@ function drawShop() {
     setMode: (m) => { _mode = (m === "sell" ? "sell" : "buy"); _swap = true; drawShop(); },
     setSide: (s) => { _side = (s === "you" ? "you" : "ship"); drawShop(); },
     setPurse: (p) => { _purse = (p === "you" ? "you" : "ship"); drawShop(); },
+    shipActorName: ship?.name || "",
     openGMPanel: () => { _gmPanel = true; _swap = true; drawShop(); },
     closeGMPanel: () => { _gmPanel = false; _swap = true; drawShop(); },
     close: closeShop,
@@ -374,14 +403,15 @@ async function doBuy(shop, eid, qty, quoteCp) {
   }
   n = Math.max(1, Math.min(Math.round(n), entry.qty));
   const payload = { type: "buyRequest", toGM: true, userId: game.user.id, shopId: shop.id,
-                    eid, qty: n, purse: _purse, dest: _side, quoteCp: quoteCp * n };
+                    eid, qty: n, purse: _purse, dest: _side, quoteCp: quoteCp * n,
+                    actorId: myActor()?.id || null };
   if (isActiveGM()) return tx(() => gmBuy(payload));
   if (!anyGM()) return ui.notifications?.warn("No GM connected — the market is shut.");
   emit(payload);
 }
 
 async function doSell(shop, itemId, qty, quoteCp) {
-  const src = _side === "ship" ? getShipActor() : game.user.character;
+  const src = _side === "ship" ? getShipActor() : myActor();
   const item = src?.items?.get(itemId);
   if (!item) return;
   const have = item.system?.quantity ?? 1;
@@ -392,7 +422,8 @@ async function doSell(shop, itemId, qty, quoteCp) {
   }
   n = Math.max(1, Math.min(Math.round(n), have));
   const payload = { type: "sellRequest", toGM: true, userId: game.user.id, shopId: shop.id,
-                    itemId, qty: n, source: _side, into: _purse, quoteCp: quoteCp * n };
+                    itemId, qty: n, source: _side, into: _purse, quoteCp: quoteCp * n,
+                    actorId: src?.id || null };
   if (isActiveGM()) return tx(() => gmSell(payload));
   if (!anyGM()) return ui.notifications?.warn("No GM connected — the market is shut.");
   emit(payload);
@@ -401,7 +432,7 @@ async function doSell(shop, itemId, qty, quoteCp) {
 /** One Persuasion check per shop per visit, rolled on the player's own client. */
 async function doHaggle(shop) {
   if (shop.haggle?.[game.user.id]) return ui.notifications?.warn("You have already tried your luck here.");
-  const actor = game.user.character;
+  const actor = myActor();
   if (!actor) return ui.notifications?.warn("No character assigned to you.");
   const type = idx().types.get(shop.type);
   const dc = S().haggleDC(type, shop);
@@ -454,6 +485,17 @@ async function creditTreasury(cp, reason) {
   return true;
 }
 
+/**
+ * The actor a request names — but only if the requesting user actually owns it.
+ * Clients send an actor id so a GM selling from a selected token works, and the
+ * ownership check stops one from naming somebody else's character.
+ */
+function requestedActor(msg, user) {
+  const a = msg.actorId ? game.actors.get(msg.actorId) : null;
+  if (a && (user.isGM || a.testUserPermission?.(user, "OWNER"))) return a;
+  return userActor(msg.userId);
+}
+
 /** Build the same pricing environment the client used, from live state. */
 function envFor(shop) {
   const index = idx();
@@ -497,7 +539,7 @@ async function gmBuy(msg) {
   if (msg.quoteCp != null && Math.abs(msg.quoteCp - totalCp) > Math.max(1, totalCp * 0.001))
     return notify(msg.userId, "The price moved — reopen the shop and try again.");
 
-  const buyerActor = userActor(msg.userId);
+  const buyerActor = requestedActor(msg, user);
   const ship = getShipActor();
   const dst = msg.dest === "you" ? buyerActor : ship;
   if (!dst) return notify(msg.userId, msg.dest === "you"
@@ -573,7 +615,7 @@ async function gmSell(msg) {
   if (!user.isGM && (!shop.open || shop.locationId !== L.current))
     return notify(msg.userId, "That shop is not trading right now.");
 
-  const sellerActor = userActor(msg.userId);
+  const sellerActor = requestedActor(msg, user);
   const ship = getShipActor();
   const src = msg.source === "you" ? sellerActor : ship;
   const item = src?.items?.get(msg.itemId);
@@ -879,6 +921,26 @@ async function gmAction(shop, action) {
       if (v) await patch({ cash: Math.max(0, Math.round(Number(v.gp) * 100) || 0) });
       break;
     }
+    case "shipactor": {
+      // Which actor holds the Gull's cargo. Without this the SHIP CARGO side is
+      // empty unless ship-combat happens to be installed and configured.
+      const actors = game.actors.filter((a) => !a.getFlag?.(SHIPCOMBAT_ID, "shipIcon"));
+      if (!actors.length) return ui.notifications?.warn("This world has no actors.");
+      const cur = getConfig().shipActorId;
+      const v = await form("Ship cargo actor",
+        `<div style="min-width:360px">` +
+        row("Actor", sel("id", [["", "— none —"]].concat(
+          actors.map((a) => [a.id, `${a.name} (${a.type})`])), cur, "260px")) +
+        `<p style="opacity:.7;font-size:12px;margin:8px 0 0">The actor whose inventory is the ship's ` +
+        `cargo hold. Bought goods land here and SHIP CARGO sells from here. Leave it as none to fall ` +
+        `back to the ship-combat module's configured actor.</p></div>`);
+      if (!v) return;
+      await setConfig({ shipActorId: v.id || "" });
+      const a = v.id ? game.actors.get(v.id) : null;
+      ui.notifications?.info(a ? `Ship cargo is now ${a.name}.` : "Ship cargo actor cleared.");
+      emit({ type: "refresh" }); refreshOpen();
+      break;
+    }
     case "open": await patch({ open: !shop.open }); break;
     case "reroll": await gmReroll(shop); break;
     case "restock": {
@@ -1110,9 +1172,12 @@ Hooks.once("ready", async () => {
 
   game.socket.on(SOCKET, onSocket);
 
-  // Esc closes the shop before Foundry's menu gets it.
+  // Esc closes the shop before Foundry's menu gets it — but never steal it from
+  // an open Foundry dialog, which needs Esc to cancel itself.
   window.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
+    if (e.target?.closest?.(".application, .window-app, .dialog, dialog")) return;
+    if (document.querySelector(".dialog, dialog.application[open], .application.dialog")) return;
     if (_browser) { e.preventDefault(); e.stopImmediatePropagation(); return closeBrowser(); }
     if (shopOpen()) { e.preventDefault(); e.stopImmediatePropagation(); return closeShop(); }
     if (listOpen()) { e.preventDefault(); e.stopImmediatePropagation(); return closeList(); }
@@ -1121,11 +1186,11 @@ Hooks.once("ready", async () => {
   // Keep an open shop honest when inventories or money change underneath it.
   const touched = (doc) => {
     const p = doc?.parent;
-    return p && (p === getShipActor() || p === game.user.character);
+    return p && (p === getShipActor() || p === myActor());
   };
   for (const h of ["createItem", "updateItem", "deleteItem"])
     Hooks.on(h, (doc) => { if (touched(doc)) refreshOpen(); });
-  Hooks.on("updateActor", (a) => { if (a === getShipActor() || a === game.user.character) refreshOpen(); });
+  Hooks.on("updateActor", (a) => { if (a === getShipActor() || a === myActor()) refreshOpen(); });
 
   const api = {
     open: openShops, openShop, close: closeAll,

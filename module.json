@@ -1,19 +1,52 @@
 {
   "id": "ssv-silver-gull-shop",
-  "title": "SSV Silver Gull — Shops & Trade",
+  "title": "SSV Silver Gull \u2014 Shops & Trade",
   "description": "Location-gated shops with generated stock, a living economy (region, scarcity and faction standing all move prices), a shared ship treasury alongside each character's purse, and GM authoring tools. Press I to open the shops available where the crew are docked.",
-  "authors": [{ "name": "Solly240" }],
-  "version": "0.1.0",
-  "compatibility": { "minimum": "12", "verified": "14" },
+  "authors": [
+    {
+      "name": "Solly240"
+    }
+  ],
+  "version": "0.1.1",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "14"
+  },
   "socket": true,
-  "scripts": ["scripts/shop-render.js"],
-  "esmodules": ["scripts/shop.js"],
-  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }],
+  "scripts": [
+    "scripts/shop-render.js"
+  ],
+  "esmodules": [
+    "scripts/shop.js"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
   "relationships": {
-    "systems": [{ "id": "dnd5e", "type": "system", "compatibility": { "minimum": "3.0.0" } }],
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "3.0.0"
+        }
+      }
+    ],
     "recommends": [
-      { "id": "ssv-silver-gull-politics", "type": "module", "reason": "Faction standing moves shop prices." },
-      { "id": "ssv-silver-gull-ship-combat", "type": "module", "reason": "Bought fuel and power cells feed the ship gauges." }
+      {
+        "id": "ssv-silver-gull-politics",
+        "type": "module",
+        "reason": "Faction standing moves shop prices."
+      },
+      {
+        "id": "ssv-silver-gull-ship-combat",
+        "type": "module",
+        "reason": "Bought fuel and power cells feed the ship gauges."
+      }
     ]
   },
   "url": "https://github.com/Solly240/ssv-silver-gull-shop",
