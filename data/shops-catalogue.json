@@ -1518,7 +1518,7 @@
   {
    "when": {
     "type": "consumable",
-    "nameRe": "(?i)\\b(arrow|bolt|bullet|needle|slug|cartridge|shot|ammunition)\\b"
+    "nameRe": "\\b(arrow|bolt|bullet|needle|slug|cartridge|shot|ammunition)\\b"
    },
    "categories": [
     "ammo"
@@ -1527,7 +1527,7 @@
   {
    "when": {
     "type": "consumable",
-    "nameRe": "(?i)\\b(potion|elixir|antitoxin|healing|salve|philter)\\b"
+    "nameRe": "\\b(potion|elixir|antitoxin|healing|salve|philter)\\b"
    },
    "categories": [
     "medical"
@@ -1536,7 +1536,7 @@
   {
    "when": {
     "type": "consumable",
-    "nameRe": "(?i)\\b(rations?|food|bread|cheese|meat)\\b"
+    "nameRe": "\\b(rations?|food|bread|cheese|meat)\\b"
    },
    "categories": [
     "food"
@@ -1545,7 +1545,7 @@
   {
    "when": {
     "type": "consumable",
-    "nameRe": "(?i)\\b(ale|wine|beer|spirits?|mead|brandy|whisk)\\b"
+    "nameRe": "\\b(ale|wine|beer|spirits?|mead|brandy|whisk)\\b"
    },
    "categories": [
     "drink"
@@ -1554,7 +1554,7 @@
   {
    "when": {
     "type": "consumable",
-    "nameRe": "(?i)\\b(bomb|grenade|charge|explosive|flask of alchemist)\\b"
+    "nameRe": "\\b(bomb|grenade|charge|explosive|flask of alchemist)\\b"
    },
    "categories": [
     "weapon",
@@ -1580,7 +1580,7 @@
   {
    "when": {
     "type": "equipment",
-    "nameRe": "(?i)\\b(armor|armour|mail|plate|shield|cuirass|brigandine)\\b"
+    "nameRe": "\\b(armor|armour|mail|plate|shield|cuirass|brigandine|leather|hide|scale|splint|padded|studded|breastplate|chain shirt|half plate|ring mail|carapace|vest)\\b"
    },
    "categories": [
     "armour"
@@ -1589,7 +1589,7 @@
   {
    "when": {
     "type": "equipment",
-    "nameRe": "(?i)\\b(suit|mask|respirator|helm|goggles)\\b"
+    "nameRe": "\\b(suit|mask|respirator|helm|goggles)\\b"
    },
    "categories": [
     "vaccsuit",
@@ -1623,7 +1623,7 @@
   {
    "when": {
     "type": "loot",
-    "nameRe": "(?i)\\b(ore|ingot|bar of|nugget)\\b"
+    "nameRe": "\\b(ore|ingot|bar of|nugget)\\b"
    },
    "categories": [
     "ore",
@@ -1633,7 +1633,7 @@
   {
    "when": {
     "type": "loot",
-    "nameRe": "(?i)\\b(gem|jewel|pearl|diamond|ruby|emerald|sapphire|opal|amber|idol|art object)\\b"
+    "nameRe": "\\b(gem|jewel|pearl|diamond|ruby|emerald|sapphire|opal|amber|idol|art object)\\b"
    },
    "categories": [
     "valuable"
@@ -1642,7 +1642,7 @@
   {
    "when": {
     "type": "loot",
-    "nameRe": "(?i)\\b(scrap|wreck|debris|junk|broken)\\b"
+    "nameRe": "\\b(scrap|wreck|debris|junk|broken)\\b"
    },
    "categories": [
     "salvage"

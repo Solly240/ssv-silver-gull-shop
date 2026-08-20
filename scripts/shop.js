@@ -76,12 +76,22 @@ async function buildSrdIndex() {
   rebuildIndex();
   return out;
 }
+const _ruleReCache = new Map();
+/** Same tolerant, cached compile the renderer uses — see SSVSHOP.ruleRe. */
+function ruleRe(src) {
+  if (_ruleReCache.has(src)) return _ruleReCache.get(src);
+  let re = null;
+  try { re = new RegExp(String(src).replace(/^\(\?[a-z]+\)/, ""), "i"); }
+  catch (e) { console.warn(`${MODULE_ID} | ignoring uncompilable name pattern:`, src, e); }
+  _ruleReCache.set(src, re);
+  return re;
+}
 function categoriesFromRules(entry, rules) {
   for (const rule of rules) {
     const w = rule.when || {};
     if (w.type && w.type !== entry.type) continue;
     if (w.rarityIn && !w.rarityIn.includes(entry.system?.rarity)) continue;
-    if (w.nameRe && !new RegExp(w.nameRe).test(entry.name || "")) continue;
+    if (w.nameRe && !ruleRe(w.nameRe)?.test(entry.name || "")) continue;
     return rule.categories;
   }
   return null;

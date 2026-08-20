@@ -638,37 +638,96 @@
    * Work out what an arbitrary owned item counts as. Catalogue match first
    * (by id, then by name), then the ordered srdRules, then a plain type map.
    */
+  /**
+   * Compile a catalogue name pattern. Always case-insensitive, and tolerant of a
+   * leading Python-style `(?i)` (JavaScript has no inline flags and throws on
+   * one). Cached, and a pattern that will not compile is skipped rather than
+   * allowed to abort the render that called it.
+   */
+  const _reCache = new Map();
+  function ruleRe(src) {
+    if (_reCache.has(src)) return _reCache.get(src);
+    let re = null;
+    try {
+      re = new RegExp(String(src).replace(/^\(\?[a-z]+\)/, ""), "i");
+    } catch (e) {
+      console.warn("SSVSHOP | ignoring uncompilable name pattern:", src, e);
+    }
+    _reCache.set(src, re);
+    return re;
+  }
+
   const TYPE_FALLBACK = { weapon: ["weapon"], equipment: ["gear"], consumable: ["gear"],
     tool: ["tool"], loot: ["material"], container: ["gear"], backpack: ["gear"] };
+
+  // Items on an actor rarely match the catalogue character for character:
+  // "Rations (1 day)" vs "Navy Ration Pack", stray punctuation, plurals.
+  const normName = (s) => String(s || "").toLowerCase()
+    .replace(/\(.*?\)/g, " ").replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  // No single de-pluralising rule covers both "grenade+s" and "patch+es", so
+  // try each candidate: "frag grenades" -> "frag grenade",
+  // "vacc suit hull patches" -> "...patch", "batteries" -> "battery".
+  const singulars = (n) => [
+    n.replace(/ies$/, "y"),
+    n.replace(/es$/, ""),
+    n.replace(/s$/, ""),
+  ].filter((v) => v && v !== n);
+  const nameIndex = (index) => index._byName || (index._byName = (() => {
+    const m = new Map();
+    for (const it of index.items.values()) {
+      const n = normName(it.name);
+      for (const key of [n, ...singulars(n)]) if (!m.has(key)) m.set(key, it);
+    }
+    return m;
+  })());
+  const lookupByName = (index, name) => {
+    const m = nameIndex(index), n = normName(name);
+    if (m.has(n)) return m.get(n);
+    for (const c of singulars(n)) if (m.has(c)) return m.get(c);
+    return null;
+  };
+
+  /**
+   * What an item is worth when nothing else says. Campaign items created by
+   * macro often carry no dnd5e `system.price` at all, and without this every
+   * one of them prices at zero and the shop refuses to buy it.
+   */
+  const RARITY_FALLBACK_GP = { common: 1, uncommon: 25, rare: 150, veryRare: 600,
+                               legendary: 2000, artifact: 5000 };
+
   function categoriesFor(item, index) {
     if (item.catId && index.items.has(item.catId)) return index.items.get(item.catId).categories || [];
     if (item.categories?.length) return item.categories;
-    const byName = index._byName || (index._byName = (() => {
-      const m = new Map();
-      for (const it of index.items.values()) m.set(String(it.name).toLowerCase(), it);
-      return m;
-    })());
-    const hit = byName.get(String(item.name || "").toLowerCase());
+    const hit = lookupByName(index, item.name);
     if (hit) return hit.categories || [];
     for (const rule of index.cat.srdRules || []) {
       const w = rule.when || {};
       if (w.type && w.type !== item.type) continue;
       if (w.rarityIn && !w.rarityIn.includes(item.rarity)) continue;
-      if (w.nameRe && !new RegExp(w.nameRe).test(item.name || "")) continue;
+      if (w.nameRe && !ruleRe(w.nameRe)?.test(item.name || "")) continue;
       return rule.categories;
     }
     return TYPE_FALLBACK[item.type] || ["gear"];
   }
-  /** Base price for an owned item: catalogue first, then its own dnd5e price. */
-  function basePriceGpFor(item, index) {
-    if (item.catId && index.items.has(item.catId)) return index.items.get(item.catId).basePriceGp;
-    const byName = index._byName;
-    const hit = byName?.get(String(item.name || "").toLowerCase());
-    if (hit) return hit.basePriceGp;
-    if (item.basePriceGp != null) return item.basePriceGp;
-    return (Number(item.priceCp) || 0) / 100;
+  /**
+   * Base price for an owned item: the catalogue first, then a name match, then
+   * its own dnd5e price, and finally a rarity-based estimate so an item with no
+   * price data is still worth *something* rather than being unsellable.
+   * Returns {gp, estimated} so the UI can be honest about which it used.
+   */
+  function basePriceOf(item, index) {
+    if (item.catId && index.items.has(item.catId))
+      return { gp: index.items.get(item.catId).basePriceGp, estimated: false };
+    const hit = lookupByName(index, item.name);
+    if (hit) return { gp: hit.basePriceGp, estimated: false };
+    if (item.basePriceGp != null) return { gp: item.basePriceGp, estimated: false };
+    const own = (Number(item.priceCp) || 0) / 100;
+    if (own > 0) return { gp: own, estimated: false };
+    return { gp: RARITY_FALLBACK_GP[item.rarity] ?? 1, estimated: true };
   }
+  const basePriceGpFor = (item, index) => basePriceOf(item, index).gp;
   S.categoriesFor = categoriesFor; S.basePriceGpFor = basePriceGpFor;
+  S.basePriceOf = basePriceOf; S.normName = normName;
 
   /* ------------------------------------------------- transient UI state */
   const _collapsed = new Set();   // section names the user folded away
@@ -708,6 +767,7 @@
     if (view.stock != null) meta.push(`Stock ${view.stock}`);
     if (view.owned != null) meta.push(`You have ${view.owned}`);
     if (view.weight) meta.push(`${view.weight} lb`);
+    if (view.estimated) meta.push("value estimated");
     el.innerHTML =
       `<img src="${esc(view.img)}" alt="">` +
       `<div class="ip-name">${esc(view.name)}</div>` +
@@ -887,7 +947,7 @@
     const out = [];
     for (const it of ctx.partyItems || []) {
       const cats = categoriesFor(it, index);
-      const gp = basePriceGpFor(it, index);
+      const { gp, estimated } = basePriceOf(it, index);
       const pseudo = { ...it, categories: cats, basePriceGp: gp,
                        par: index.items.get(it.catId)?.par || index.rarityPar[it.rarity] || 2 };
       const takes = buysCategory(type, cats) && gp > 0;
@@ -897,7 +957,7 @@
         key: it.id, kind: "sell", name: it.name, img: it.img, rarity: it.rarity || "common",
         type: it.type, typeLabel: it.type, desc: it.desc, section: cats[0] || "gear",
         price, priceLabel: "THEY PAY", badge: `×${it.qty}`, owned: it.qty,
-        oos: false, nobuy: !takes, cant: false, maxQty: Math.max(1, it.qty),
+        oos: false, nobuy: !takes, cant: false, maxQty: Math.max(1, it.qty), estimated,
         canAct: takes && ctx.canTrade && !ctx.readOnly && (shop.cash || 0) >= price.cp,
         actionIcon: "SELL", actionTitle: `Sell one for ${fmtCp(price.cp)}`,
         gmDelete: false, gmEdit: false,
