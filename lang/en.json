@@ -1,0 +1,13 @@
+{
+  "ssv-silver-gull-shop.keybind.open.name": "Open Shops",
+  "ssv-silver-gull-shop.keybind.open.hint": "Show the shops available where the crew are currently docked.",
+  "ssv-silver-gull-shop.control.title": "Shops",
+  "ssv-silver-gull-shop.settings.haggle.name": "Allow haggling",
+  "ssv-silver-gull-shop.settings.haggle.hint": "Players may make one Persuasion check per shop per visit to nudge prices.",
+  "ssv-silver-gull-shop.settings.breakdown.name": "Show players the price breakdown",
+  "ssv-silver-gull-shop.settings.breakdown.hint": "Reveal the base price and every modifier in the item hover popup. The GM always sees it.",
+  "ssv-silver-gull-shop.settings.treasury.name": "Players may spend the ship treasury",
+  "ssv-silver-gull-shop.settings.treasury.hint": "Turn off to make the shared purse GM-only; players can still spend their own coin.",
+  "ssv-silver-gull-shop.settings.restock.name": "Restock interval (days)",
+  "ssv-silver-gull-shop.settings.restock.hint": "How long before a shop's stock and cash recover. Restocking happens when the GM opens the shop."
+}

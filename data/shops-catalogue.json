@@ -1,0 +1,3670 @@
+{
+ "version": "1.0.0",
+ "updated": "2026-08-20",
+ "_note": "Authored content for the SSV Silver Gull shop module. Shipped in the module and OVERWRITTEN on every release - never store shop stock, prices paid, or money here. Live state lives in the world settings (shops / locations / treasury / catalogueOverrides). Regenerate with tools/build_catalogue.py.",
+ "categories": [
+  "fuel",
+  "power",
+  "ammo",
+  "weapon",
+  "armour",
+  "vaccsuit",
+  "medical",
+  "food",
+  "drink",
+  "tool",
+  "shippart",
+  "salvage",
+  "ore",
+  "material",
+  "valuable",
+  "relic",
+  "contraband",
+  "water",
+  "luxury",
+  "gear",
+  "document"
+ ],
+ "categoryLabels": {
+  "fuel": "Fuel",
+  "power": "Power Cells",
+  "ammo": "Ammunition",
+  "weapon": "Weapons",
+  "armour": "Armour",
+  "vaccsuit": "Vacc-Suits & EVA",
+  "medical": "Medical",
+  "food": "Food",
+  "drink": "Drink",
+  "tool": "Tools",
+  "shippart": "Ship Parts",
+  "salvage": "Salvage",
+  "ore": "Ore",
+  "material": "Materials",
+  "valuable": "Valuables",
+  "relic": "Relics",
+  "contraband": "Contraband",
+  "water": "Water",
+  "luxury": "Luxuries",
+  "gear": "Gear & Supplies",
+  "document": "Papers & Contracts"
+ },
+ "rarityPar": {
+  "common": 8,
+  "uncommon": 4,
+  "rare": 2,
+  "veryRare": 1,
+  "legendary": 1,
+  "artifact": 1
+ },
+ "rarityWeight": {
+  "common": 10,
+  "uncommon": 5,
+  "rare": 2,
+  "veryRare": 0.6,
+  "legendary": 0.2,
+  "artifact": 0.05
+ },
+ "rarityOrder": [
+  "common",
+  "uncommon",
+  "rare",
+  "veryRare",
+  "legendary",
+  "artifact"
+ ],
+ "wealth": [
+  {
+   "tier": 1,
+   "label": "Destitute",
+   "markup": 0.9,
+   "cashGp": 250,
+   "sizeMult": 0.7,
+   "rarityCeiling": "common"
+  },
+  {
+   "tier": 2,
+   "label": "Poor",
+   "markup": 0.95,
+   "cashGp": 750,
+   "sizeMult": 0.85,
+   "rarityCeiling": "uncommon"
+  },
+  {
+   "tier": 3,
+   "label": "Modest",
+   "markup": 1.0,
+   "cashGp": 2000,
+   "sizeMult": 1.0,
+   "rarityCeiling": "rare"
+  },
+  {
+   "tier": 4,
+   "label": "Prosperous",
+   "markup": 1.05,
+   "cashGp": 6000,
+   "sizeMult": 1.15,
+   "rarityCeiling": "veryRare"
+  },
+  {
+   "tier": 5,
+   "label": "Opulent",
+   "markup": 1.12,
+   "cashGp": 20000,
+   "sizeMult": 1.3,
+   "rarityCeiling": "artifact"
+  }
+ ],
+ "sizes": [
+  {
+   "id": "stall",
+   "label": "Stall",
+   "slots": 8,
+   "cashMult": 0.5
+  },
+  {
+   "id": "small",
+   "label": "Small",
+   "slots": 14,
+   "cashMult": 0.8
+  },
+  {
+   "id": "medium",
+   "label": "Medium",
+   "slots": 22,
+   "cashMult": 1.0
+  },
+  {
+   "id": "large",
+   "label": "Large",
+   "slots": 34,
+   "cashMult": 1.6
+  },
+  {
+   "id": "emporium",
+   "label": "Emporium",
+   "slots": 48,
+   "cashMult": 2.5
+  }
+ ],
+ "shopTypes": [
+  {
+   "id": "general-store",
+   "label": "General Store",
+   "group": "core",
+   "icon": "🛒",
+   "stocks": [
+    "gear",
+    "food",
+    "tool",
+    "material",
+    "vaccsuit"
+   ],
+   "buys": [
+    "gear",
+    "food",
+    "tool",
+    "material",
+    "vaccsuit"
+   ],
+   "markup": 1.1,
+   "sellRate": 0.45,
+   "wealth": [
+    1,
+    4
+   ],
+   "standingWeight": 0.8,
+   "haggleDC": 2,
+   "outlaw": false,
+   "weights": {
+    "gear": 2.0,
+    "food": 1.6,
+    "tool": 1.2
+   },
+   "always": [],
+   "blurbs": [
+    "Crates stacked to the ceiling and a clerk who has seen everything.",
+    "Everything a spacer needs and nothing they want."
+   ]
+  },
+  {
+   "id": "fuel-depot",
+   "label": "Fuel Depot",
+   "group": "core",
+   "icon": "⛽",
+   "stocks": [
+    "fuel",
+    "power"
+   ],
+   "buys": [
+    "fuel",
+    "power"
+   ],
+   "markup": 1.05,
+   "sellRate": 0.5,
+   "wealth": [
+    1,
+    4
+   ],
+   "standingWeight": 0.9,
+   "haggleDC": 1,
+   "outlaw": false,
+   "weights": {
+    "fuel": 2.5,
+    "power": 1.8
+   },
+   "always": [],
+   "blurbs": [
+    "Pumps, drums and a hard-eyed dispatcher counting every litre.",
+    "The whole place smells of promethium and burnt insulation."
+   ]
+  },
+  {
+   "id": "ship-chandler",
+   "label": "Ship Chandler",
+   "group": "core",
+   "icon": "⚙",
+   "stocks": [
+    "shippart",
+    "tool",
+    "fuel",
+    "gear",
+    "vaccsuit"
+   ],
+   "buys": [
+    "shippart",
+    "tool",
+    "salvage",
+    "fuel",
+    "gear",
+    "vaccsuit",
+    "material"
+   ],
+   "markup": 1.15,
+   "sellRate": 0.45,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 1.0,
+   "haggleDC": 3,
+   "outlaw": false,
+   "weights": {
+    "shippart": 2.5,
+    "tool": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "Coiled line, patch kits and second-hand nav gear in every corner.",
+    "If it bolts to a hull, they have one — probably used."
+   ]
+  },
+  {
+   "id": "weaponsmith",
+   "label": "Weaponsmith",
+   "group": "core",
+   "icon": "🔫",
+   "stocks": [
+    "weapon",
+    "ammo"
+   ],
+   "buys": [
+    "weapon",
+    "ammo"
+   ],
+   "markup": 1.25,
+   "sellRate": 0.45,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 1.1,
+   "haggleDC": 3,
+   "outlaw": false,
+   "weights": {
+    "weapon": 2.5,
+    "ammo": 2.0
+   },
+   "always": [],
+   "blurbs": [
+    "Racked barrels behind armoured glass, and a bench that is always busy.",
+    "The smith talks to the guns more than the customers."
+   ]
+  },
+  {
+   "id": "armoury",
+   "label": "Armoury",
+   "group": "core",
+   "icon": "🛡",
+   "stocks": [
+    "armour",
+    "vaccsuit",
+    "ammo"
+   ],
+   "buys": [
+    "armour",
+    "vaccsuit"
+   ],
+   "markup": 1.2,
+   "sellRate": 0.45,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 1.1,
+   "haggleDC": 3,
+   "outlaw": false,
+   "weights": {
+    "armour": 2.5,
+    "vaccsuit": 2.0
+   },
+   "always": [],
+   "blurbs": [
+    "Plate, weave and pressure suits hung like empty crew.",
+    "Everything here is rated for something that wants you dead."
+   ]
+  },
+  {
+   "id": "medbay",
+   "label": "Med Bay / Apothecary",
+   "group": "core",
+   "icon": "⚕",
+   "stocks": [
+    "medical",
+    "food"
+   ],
+   "buys": [
+    "medical"
+   ],
+   "markup": 1.3,
+   "sellRate": 0.5,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 0.9,
+   "haggleDC": 2,
+   "outlaw": false,
+   "weights": {
+    "medical": 3.0
+   },
+   "always": [],
+   "blurbs": [
+    "Clean light, clean counters, and prices that are anything but.",
+    "A tired medic who charges for the sterile field as well."
+   ]
+  },
+  {
+   "id": "cantina",
+   "label": "Cantina & Bar",
+   "group": "core",
+   "icon": "🍺",
+   "stocks": [
+    "drink",
+    "food",
+    "luxury"
+   ],
+   "buys": [
+    "drink",
+    "food",
+    "luxury"
+   ],
+   "markup": 1.4,
+   "sellRate": 0.4,
+   "wealth": [
+    1,
+    4
+   ],
+   "standingWeight": 0.7,
+   "haggleDC": 1,
+   "outlaw": false,
+   "weights": {
+    "drink": 3.0,
+    "food": 1.2
+   },
+   "always": [],
+   "blurbs": [
+    "Low light, loud company, and a bar that has been wiped since last year.",
+    "Somebody is always about to start something."
+   ]
+  },
+  {
+   "id": "black-market",
+   "label": "Black Market",
+   "group": "shady",
+   "icon": "🕶",
+   "stocks": [
+    "contraband",
+    "weapon",
+    "relic",
+    "valuable",
+    "ammo"
+   ],
+   "buys": [
+    "contraband",
+    "weapon",
+    "relic",
+    "valuable",
+    "salvage"
+   ],
+   "markup": 1.75,
+   "sellRate": 0.6,
+   "wealth": [
+    3,
+    5
+   ],
+   "standingWeight": 1.2,
+   "haggleDC": 5,
+   "outlaw": true,
+   "weights": {
+    "contraband": 3.0,
+    "relic": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "No sign, no records, and two people watching the door.",
+    "Whatever the law forbids, somebody here has three of."
+   ]
+  },
+  {
+   "id": "smugglers-hold",
+   "label": "Smuggler's Hold",
+   "group": "shady",
+   "icon": "📦",
+   "stocks": [
+    "contraband",
+    "fuel",
+    "shippart",
+    "luxury"
+   ],
+   "buys": [
+    "contraband",
+    "fuel",
+    "shippart",
+    "luxury"
+   ],
+   "markup": 1.55,
+   "sellRate": 0.55,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 1.1,
+   "haggleDC": 4,
+   "outlaw": true,
+   "weights": {
+    "contraband": 2.2,
+    "fuel": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "A cargo hold with the manifest torn out.",
+    "Sealed crates, false floors and no questions."
+   ]
+  },
+  {
+   "id": "fence",
+   "label": "Fence",
+   "group": "shady",
+   "icon": "💎",
+   "stocks": [
+    "valuable",
+    "relic",
+    "contraband"
+   ],
+   "buys": [
+    "*"
+   ],
+   "markup": 1.45,
+   "sellRate": 0.55,
+   "wealth": [
+    2,
+    4
+   ],
+   "standingWeight": 1.0,
+   "haggleDC": 4,
+   "outlaw": true,
+   "weights": {
+    "valuable": 2.5,
+    "relic": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "They will take anything. They will not tell you where it goes.",
+    "A jeweller's loupe and absolutely no curiosity."
+   ]
+  },
+  {
+   "id": "pawn-shop",
+   "label": "Pawn Shop",
+   "group": "shady",
+   "icon": "🏷",
+   "stocks": [
+    "valuable",
+    "tool",
+    "gear",
+    "weapon"
+   ],
+   "buys": [
+    "*"
+   ],
+   "markup": 1.2,
+   "sellRate": 0.4,
+   "wealth": [
+    1,
+    3
+   ],
+   "standingWeight": 0.8,
+   "haggleDC": 3,
+   "outlaw": true,
+   "weights": {
+    "valuable": 2.0,
+    "tool": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "Other people's worst days, priced by the shelf.",
+    "Tickets in the window, most of them long expired."
+   ]
+  },
+  {
+   "id": "salvage-yard",
+   "label": "Salvage Yard",
+   "group": "specialist",
+   "icon": "🔩",
+   "stocks": [
+    "salvage",
+    "shippart",
+    "material",
+    "tool"
+   ],
+   "buys": [
+    "salvage",
+    "shippart",
+    "material",
+    "tool"
+   ],
+   "markup": 0.95,
+   "sellRate": 0.5,
+   "wealth": [
+    1,
+    4
+   ],
+   "standingWeight": 0.8,
+   "haggleDC": 2,
+   "outlaw": false,
+   "weights": {
+    "salvage": 3.0,
+    "shippart": 2.0
+   },
+   "always": [],
+   "blurbs": [
+    "Hull sections stacked like a card house, sorted by nothing at all.",
+    "Cutting torches all day, every day."
+   ]
+  },
+  {
+   "id": "refinery",
+   "label": "Refinery / Ore Broker",
+   "group": "specialist",
+   "icon": "🔥",
+   "stocks": [
+    "ore",
+    "material",
+    "fuel"
+   ],
+   "buys": [
+    "ore",
+    "material",
+    "fuel"
+   ],
+   "markup": 0.9,
+   "sellRate": 0.55,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 0.9,
+   "haggleDC": 2,
+   "outlaw": false,
+   "weights": {
+    "ore": 3.0,
+    "material": 2.0
+   },
+   "always": [],
+   "blurbs": [
+    "Assay scales, sample drills and a broker who never blinks.",
+    "The floor is warm and the air tastes of metal."
+   ]
+  },
+  {
+   "id": "exotic-artificer",
+   "label": "Exotic Artificer",
+   "group": "specialist",
+   "icon": "⚛",
+   "stocks": [
+    "relic",
+    "power",
+    "material",
+    "tool"
+   ],
+   "buys": [
+    "relic",
+    "material",
+    "power",
+    "tool"
+   ],
+   "markup": 1.85,
+   "sellRate": 0.5,
+   "wealth": [
+    4,
+    5
+   ],
+   "standingWeight": 1.2,
+   "haggleDC": 5,
+   "outlaw": false,
+   "weights": {
+    "relic": 2.5,
+    "power": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "Half a workshop, half a shrine, and everything hums.",
+    "They will not say where the parts come from."
+   ]
+  },
+  {
+   "id": "ancient-relics",
+   "label": "Ancient Relics",
+   "group": "specialist",
+   "icon": "🏺",
+   "stocks": [
+    "relic",
+    "valuable"
+   ],
+   "buys": [
+    "relic",
+    "valuable"
+   ],
+   "markup": 2.1,
+   "sellRate": 0.55,
+   "wealth": [
+    4,
+    5
+   ],
+   "standingWeight": 1.3,
+   "haggleDC": 5,
+   "outlaw": false,
+   "weights": {
+    "relic": 3.0
+   },
+   "always": [],
+   "blurbs": [
+    "Lit cases, soft voices, and prices spoken rather than written.",
+    "Every piece has a story and none of them check out."
+   ]
+  },
+  {
+   "id": "shipwright",
+   "label": "Shipwright",
+   "group": "specialist",
+   "icon": "🛠",
+   "stocks": [
+    "shippart",
+    "tool",
+    "material"
+   ],
+   "buys": [
+    "shippart",
+    "salvage",
+    "material",
+    "tool"
+   ],
+   "markup": 1.3,
+   "sellRate": 0.45,
+   "wealth": [
+    3,
+    5
+   ],
+   "standingWeight": 1.0,
+   "haggleDC": 4,
+   "outlaw": false,
+   "weights": {
+    "shippart": 3.0,
+    "material": 1.8
+   },
+   "always": [],
+   "blurbs": [
+    "Gantries, welders, and a yard boss with a very full schedule.",
+    "They quote in weeks and mean months."
+   ]
+  },
+  {
+   "id": "vaccsuit-outfitter",
+   "label": "Vacc-Suit Outfitter",
+   "group": "specialist",
+   "icon": "🦺",
+   "stocks": [
+    "vaccsuit",
+    "gear",
+    "tool"
+   ],
+   "buys": [
+    "vaccsuit",
+    "gear",
+    "tool"
+   ],
+   "markup": 1.2,
+   "sellRate": 0.45,
+   "wealth": [
+    2,
+    5
+   ],
+   "standingWeight": 1.0,
+   "haggleDC": 3,
+   "outlaw": false,
+   "weights": {
+    "vaccsuit": 3.0,
+    "gear": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "Suits on rails, seals tested in front of you.",
+    "The fitter measures twice and charges once."
+   ]
+  },
+  {
+   "id": "bounty-office",
+   "label": "Bounty Office",
+   "group": "specialist",
+   "icon": "📜",
+   "stocks": [
+    "document",
+    "weapon",
+    "ammo"
+   ],
+   "buys": [
+    "document",
+    "contraband"
+   ],
+   "markup": 1.15,
+   "sellRate": 0.5,
+   "wealth": [
+    2,
+    4
+   ],
+   "standingWeight": 1.2,
+   "haggleDC": 4,
+   "outlaw": false,
+   "weights": {
+    "document": 3.0
+   },
+   "always": [],
+   "blurbs": [
+    "A board of faces, half of them crossed out.",
+    "Warrants, writs, and a clerk who counts heads for a living."
+   ]
+  },
+  {
+   "id": "temple-commissary",
+   "label": "Temple Commissary",
+   "group": "flavour",
+   "icon": "🕊",
+   "stocks": [
+    "medical",
+    "food",
+    "document",
+    "relic"
+   ],
+   "buys": [
+    "medical",
+    "relic",
+    "food"
+   ],
+   "markup": 0.95,
+   "sellRate": 0.45,
+   "wealth": [
+    2,
+    4
+   ],
+   "standingWeight": 1.4,
+   "haggleDC": 5,
+   "outlaw": false,
+   "weights": {
+    "medical": 2.0,
+    "food": 2.0,
+    "relic": 1.2
+   },
+   "always": [],
+   "blurbs": [
+    "Alms, bread and blessings — all of them itemised.",
+    "The acolyte prices your soul with the rest of it."
+   ]
+  },
+  {
+   "id": "directorate-qm",
+   "label": "Directorate Quartermaster",
+   "group": "flavour",
+   "icon": "⚔",
+   "stocks": [
+    "ammo",
+    "armour",
+    "weapon",
+    "fuel",
+    "gear"
+   ],
+   "buys": [
+    "ammo",
+    "armour",
+    "salvage",
+    "weapon",
+    "fuel"
+   ],
+   "markup": 0.9,
+   "sellRate": 0.45,
+   "wealth": [
+    3,
+    5
+   ],
+   "standingWeight": 1.5,
+   "haggleDC": 5,
+   "outlaw": false,
+   "weights": {
+    "ammo": 2.5,
+    "armour": 2.0,
+    "weapon": 1.5
+   },
+   "always": [],
+   "blurbs": [
+    "Requisition forms in triplicate and a very short queue.",
+    "Military surplus, cheap — if they will serve you at all."
+   ]
+  },
+  {
+   "id": "water-broker",
+   "label": "Water Broker",
+   "group": "flavour",
+   "icon": "💧",
+   "stocks": [
+    "water",
+    "food",
+    "medical"
+   ],
+   "buys": [
+    "water",
+    "food"
+   ],
+   "markup": 1.35,
+   "sellRate": 0.5,
+   "wealth": [
+    1,
+    4
+   ],
+   "standingWeight": 0.9,
+   "haggleDC": 2,
+   "outlaw": false,
+   "weights": {
+    "water": 3.5
+   },
+   "always": [],
+   "blurbs": [
+    "Sealed tanks under guard, sold by the litre.",
+    "Here, water is the only currency that never inflates."
+   ]
+  },
+  {
+   "id": "casino-cage",
+   "label": "Casino Cage",
+   "group": "flavour",
+   "icon": "🎰",
+   "stocks": [
+    "valuable",
+    "luxury",
+    "drink"
+   ],
+   "buys": [
+    "valuable",
+    "luxury"
+   ],
+   "markup": 1.0,
+   "sellRate": 0.5,
+   "wealth": [
+    3,
+    5
+   ],
+   "standingWeight": 0.9,
+   "haggleDC": 4,
+   "outlaw": false,
+   "weights": {
+    "valuable": 2.5,
+    "luxury": 2.0
+   },
+   "always": [],
+   "blurbs": [
+    "Chips in, markers out, and the house always smiling.",
+    "The cage buys what the tables took."
+   ]
+  },
+  {
+   "id": "travelling-peddler",
+   "label": "Travelling Peddler",
+   "group": "flavour",
+   "icon": "🐫",
+   "stocks": [
+    "gear",
+    "food",
+    "drink",
+    "tool",
+    "valuable",
+    "relic"
+   ],
+   "buys": [
+    "gear",
+    "tool",
+    "valuable",
+    "food",
+    "drink",
+    "relic"
+   ],
+   "markup": 1.35,
+   "sellRate": 0.42,
+   "wealth": [
+    1,
+    3
+   ],
+   "standingWeight": 0.7,
+   "haggleDC": 2,
+   "outlaw": true,
+   "weights": {
+    "gear": 1.5,
+    "relic": 0.8
+   },
+   "always": [],
+   "blurbs": [
+    "A hold-full of odds and ends, docked for one day only.",
+    "Buys low somewhere else, sells high right here."
+   ]
+  }
+ ],
+ "locations": [
+  {
+   "id": "halberds-rest",
+   "name": "Halberd's Rest",
+   "region": "shattered-expanse",
+   "wealth": 4,
+   "law": 2,
+   "faction": null,
+   "blurb": "Free port in the gutted hull of a Directorate dreadnought, parked beside The Coil.",
+   "mods": {
+    "default": 1.0,
+    "shippart": 0.9,
+    "fuel": 0.95,
+    "contraband": 1.2,
+    "relic": 1.15,
+    "document": 0.9
+   },
+   "seed": [
+    [
+     "ship-chandler",
+     4,
+     "large"
+    ],
+    [
+     "general-store",
+     4,
+     "large"
+    ],
+    [
+     "cantina",
+     3,
+     "medium"
+    ],
+    [
+     "fuel-depot",
+     4,
+     "medium"
+    ],
+    [
+     "black-market",
+     4,
+     "small"
+    ],
+    [
+     "medbay",
+     4,
+     "medium"
+    ]
+   ]
+  },
+  {
+   "id": "sundowner",
+   "name": "Sundowner",
+   "region": "shattered-expanse",
+   "wealth": 5,
+   "law": 1,
+   "faction": null,
+   "blurb": "A rogue starless world lit end to end by one endless casino city.",
+   "mods": {
+    "default": 1.2,
+    "luxury": 0.85,
+    "drink": 0.8,
+    "valuable": 0.9,
+    "fuel": 1.3,
+    "medical": 1.25
+   },
+   "seed": [
+    [
+     "casino-cage",
+     5,
+     "large"
+    ],
+    [
+     "cantina",
+     5,
+     "emporium"
+    ],
+    [
+     "fence",
+     4,
+     "medium"
+    ],
+    [
+     "pawn-shop",
+     3,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "gallows-reach",
+   "name": "Gallows Reach",
+   "region": "shattered-expanse",
+   "wealth": 3,
+   "law": 0,
+   "faction": null,
+   "blurb": "Pirate lords, bounty boards, and prizes fenced before the hull cools.",
+   "mods": {
+    "default": 1.05,
+    "contraband": 0.7,
+    "weapon": 0.85,
+    "salvage": 0.85,
+    "document": 0.7,
+    "medical": 1.35
+   },
+   "seed": [
+    [
+     "black-market",
+     4,
+     "large"
+    ],
+    [
+     "weaponsmith",
+     3,
+     "medium"
+    ],
+    [
+     "bounty-office",
+     3,
+     "medium"
+    ],
+    [
+     "smugglers-hold",
+     3,
+     "medium"
+    ],
+    [
+     "cantina",
+     2,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "cindermoor",
+   "name": "Cindermoor",
+   "region": "shattered-expanse",
+   "wealth": 4,
+   "law": 3,
+   "faction": null,
+   "blurb": "Volcanic refinery world where the cartels cook thermite and reactor fuel.",
+   "mods": {
+    "default": 1.05,
+    "fuel": 0.6,
+    "power": 0.75,
+    "ore": 0.55,
+    "material": 0.7,
+    "food": 1.4,
+    "water": 1.6
+   },
+   "seed": [
+    [
+     "refinery",
+     4,
+     "emporium"
+    ],
+    [
+     "fuel-depot",
+     4,
+     "large"
+    ],
+    [
+     "general-store",
+     3,
+     "small"
+    ],
+    [
+     "medbay",
+     3,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "ossuary",
+   "name": "Ossuary",
+   "region": "shattered-expanse",
+   "wealth": 2,
+   "law": 1,
+   "faction": null,
+   "blurb": "A settlement built inside a ship graveyard, cutting hulls apart for a living.",
+   "mods": {
+    "default": 1.0,
+    "salvage": 0.5,
+    "shippart": 0.6,
+    "tool": 0.85,
+    "material": 0.8,
+    "food": 1.3
+   },
+   "seed": [
+    [
+     "salvage-yard",
+     2,
+     "emporium"
+    ],
+    [
+     "ship-chandler",
+     2,
+     "medium"
+    ],
+    [
+     "shipwright",
+     3,
+     "large"
+    ],
+    [
+     "cantina",
+     1,
+     "stall"
+    ]
+   ]
+  },
+  {
+   "id": "tarn",
+   "name": "Tarn",
+   "region": "shattered-expanse",
+   "wealth": 2,
+   "law": 2,
+   "faction": null,
+   "blurb": "Frozen cryo-mining world. Cheap labour, cheaper ice, no questions.",
+   "mods": {
+    "default": 0.95,
+    "water": 0.55,
+    "ore": 0.75,
+    "fuel": 1.2,
+    "luxury": 1.45,
+    "medical": 1.2
+   },
+   "seed": [
+    [
+     "water-broker",
+     2,
+     "large"
+    ],
+    [
+     "refinery",
+     2,
+     "medium"
+    ],
+    [
+     "general-store",
+     2,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "marrow",
+   "name": "Marrow",
+   "region": "shattered-expanse",
+   "wealth": 2,
+   "law": 0,
+   "faction": null,
+   "blurb": "Desert world where water is the black-market currency and everything else is cheap.",
+   "mods": {
+    "default": 1.15,
+    "water": 2.5,
+    "food": 1.6,
+    "contraband": 0.85,
+    "salvage": 1.05
+   },
+   "seed": [
+    [
+     "water-broker",
+     3,
+     "large"
+    ],
+    [
+     "black-market",
+     2,
+     "medium"
+    ],
+    [
+     "general-store",
+     1,
+     "small"
+    ],
+    [
+     "fence",
+     2,
+     "stall"
+    ]
+   ]
+  },
+  {
+   "id": "greenhollow",
+   "name": "Greenhollow",
+   "region": "shattered-expanse",
+   "wealth": 3,
+   "law": 1,
+   "faction": null,
+   "blurb": "Jungle world veined with verdite, contested by prospector gangs.",
+   "mods": {
+    "default": 1.1,
+    "material": 0.7,
+    "food": 0.8,
+    "shippart": 1.35,
+    "ammo": 1.25
+   },
+   "seed": [
+    [
+     "refinery",
+     3,
+     "medium"
+    ],
+    [
+     "general-store",
+     3,
+     "medium"
+    ],
+    [
+     "weaponsmith",
+     3,
+     "small"
+    ],
+    [
+     "medbay",
+     2,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "sib-vael",
+   "name": "Sib Vael",
+   "region": "shattered-expanse",
+   "wealth": 3,
+   "law": 1,
+   "faction": null,
+   "blurb": "Ocean world of smuggler coves, floating markets and famous brews.",
+   "mods": {
+    "default": 1.05,
+    "drink": 0.55,
+    "luxury": 0.85,
+    "food": 0.85,
+    "contraband": 0.9,
+    "shippart": 1.3
+   },
+   "seed": [
+    [
+     "cantina",
+     3,
+     "large"
+    ],
+    [
+     "smugglers-hold",
+     3,
+     "medium"
+    ],
+    [
+     "general-store",
+     3,
+     "medium"
+    ],
+    [
+     "travelling-peddler",
+     2,
+     "stall"
+    ]
+   ]
+  },
+  {
+   "id": "bexleys-landing",
+   "name": "Bexley's Landing",
+   "region": "shattered-expanse",
+   "wealth": 2,
+   "law": 3,
+   "faction": null,
+   "blurb": "An ordinary frontier town-world: farms, a spaceport bar, an outgunned sheriff.",
+   "mods": {
+    "default": 0.95,
+    "food": 0.7,
+    "gear": 0.9,
+    "weapon": 1.15,
+    "relic": 1.45
+   },
+   "seed": [
+    [
+     "general-store",
+     2,
+     "medium"
+    ],
+    [
+     "cantina",
+     2,
+     "small"
+    ],
+    [
+     "medbay",
+     2,
+     "small"
+    ],
+    [
+     "weaponsmith",
+     2,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "the-choir",
+   "name": "The Choir",
+   "region": "shattered-expanse",
+   "wealth": 3,
+   "law": 4,
+   "faction": "apostles-threshold",
+   "blurb": "Shrine world of the Apostles of the Threshold, out on the rim.",
+   "mods": {
+    "default": 1.1,
+    "relic": 0.8,
+    "medical": 0.9,
+    "contraband": 1.6,
+    "weapon": 1.35
+   },
+   "seed": [
+    [
+     "temple-commissary",
+     3,
+     "large"
+    ],
+    [
+     "medbay",
+     3,
+     "medium"
+    ],
+    [
+     "ancient-relics",
+     4,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "ferrum-hold",
+   "name": "Ferrum Hold",
+   "region": "shattered-expanse",
+   "wealth": 4,
+   "law": 4,
+   "faction": "iron-directorate",
+   "blurb": "A Directorate-leaning mining holding, buying ore and loyalty in equal measure.",
+   "mods": {
+    "default": 1.0,
+    "ammo": 0.8,
+    "armour": 0.85,
+    "ore": 0.8,
+    "contraband": 2.0,
+    "relic": 1.4
+   },
+   "seed": [
+    [
+     "directorate-qm",
+     4,
+     "large"
+    ],
+    [
+     "armoury",
+     4,
+     "medium"
+    ],
+    [
+     "refinery",
+     4,
+     "medium"
+    ],
+    [
+     "shipwright",
+     4,
+     "medium"
+    ]
+   ]
+  },
+  {
+   "id": "the-coil",
+   "name": "The Coil",
+   "region": "shattered-expanse",
+   "wealth": 4,
+   "law": 2,
+   "faction": null,
+   "blurb": "The working ancient hyper-gate — the busiest point in the Expanse.",
+   "mods": {
+    "default": 1.15,
+    "fuel": 1.25,
+    "document": 0.85
+   },
+   "seed": [
+    [
+     "fuel-depot",
+     4,
+     "large"
+    ],
+    [
+     "general-store",
+     4,
+     "medium"
+    ],
+    [
+     "bounty-office",
+     3,
+     "small"
+    ],
+    [
+     "exotic-artificer",
+     5,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "vorrn-7",
+   "name": "Vorrn-7",
+   "region": "shattered-expanse",
+   "wealth": 2,
+   "law": 1,
+   "faction": null,
+   "blurb": "A frontier system on the edge of the crew's scanned space.",
+   "mods": {
+    "default": 1.35,
+    "fuel": 1.45,
+    "medical": 1.3
+   },
+   "seed": [
+    [
+     "general-store",
+     2,
+     "small"
+    ],
+    [
+     "salvage-yard",
+     2,
+     "small"
+    ]
+   ]
+  },
+  {
+   "id": "keth-minor",
+   "name": "Keth Minor Cluster",
+   "region": "shattered-expanse",
+   "wealth": 1,
+   "law": 0,
+   "faction": null,
+   "blurb": "Scattered rocks and rift static. Barely a waypoint.",
+   "mods": {
+    "default": 1.4,
+    "fuel": 1.5,
+    "medical": 1.35,
+    "salvage": 0.9
+   },
+   "seed": []
+  },
+  {
+   "id": "ship",
+   "name": "Docked at the Silver Gull",
+   "region": "shattered-expanse",
+   "wealth": 3,
+   "law": 1,
+   "faction": null,
+   "blurb": "Somebody has docked alongside and opened their hold.",
+   "mods": {
+    "default": 1.25
+   },
+   "seed": [
+    [
+     "travelling-peddler",
+     2,
+     "stall"
+    ]
+   ]
+  }
+ ],
+ "srdRules": [
+  {
+   "when": {
+    "type": "consumable",
+    "nameRe": "(?i)\\b(arrow|bolt|bullet|needle|slug|cartridge|shot|ammunition)\\b"
+   },
+   "categories": [
+    "ammo"
+   ]
+  },
+  {
+   "when": {
+    "type": "consumable",
+    "nameRe": "(?i)\\b(potion|elixir|antitoxin|healing|salve|philter)\\b"
+   },
+   "categories": [
+    "medical"
+   ]
+  },
+  {
+   "when": {
+    "type": "consumable",
+    "nameRe": "(?i)\\b(rations?|food|bread|cheese|meat)\\b"
+   },
+   "categories": [
+    "food"
+   ]
+  },
+  {
+   "when": {
+    "type": "consumable",
+    "nameRe": "(?i)\\b(ale|wine|beer|spirits?|mead|brandy|whisk)\\b"
+   },
+   "categories": [
+    "drink"
+   ]
+  },
+  {
+   "when": {
+    "type": "consumable",
+    "nameRe": "(?i)\\b(bomb|grenade|charge|explosive|flask of alchemist)\\b"
+   },
+   "categories": [
+    "weapon",
+    "contraband"
+   ]
+  },
+  {
+   "when": {
+    "type": "consumable"
+   },
+   "categories": [
+    "gear"
+   ]
+  },
+  {
+   "when": {
+    "type": "weapon"
+   },
+   "categories": [
+    "weapon"
+   ]
+  },
+  {
+   "when": {
+    "type": "equipment",
+    "nameRe": "(?i)\\b(armor|armour|mail|plate|shield|cuirass|brigandine)\\b"
+   },
+   "categories": [
+    "armour"
+   ]
+  },
+  {
+   "when": {
+    "type": "equipment",
+    "nameRe": "(?i)\\b(suit|mask|respirator|helm|goggles)\\b"
+   },
+   "categories": [
+    "vaccsuit",
+    "gear"
+   ]
+  },
+  {
+   "when": {
+    "type": "equipment"
+   },
+   "categories": [
+    "gear"
+   ]
+  },
+  {
+   "when": {
+    "type": "tool"
+   },
+   "categories": [
+    "tool"
+   ]
+  },
+  {
+   "when": {
+    "type": "container"
+   },
+   "categories": [
+    "gear"
+   ]
+  },
+  {
+   "when": {
+    "type": "loot",
+    "nameRe": "(?i)\\b(ore|ingot|bar of|nugget)\\b"
+   },
+   "categories": [
+    "ore",
+    "material"
+   ]
+  },
+  {
+   "when": {
+    "type": "loot",
+    "nameRe": "(?i)\\b(gem|jewel|pearl|diamond|ruby|emerald|sapphire|opal|amber|idol|art object)\\b"
+   },
+   "categories": [
+    "valuable"
+   ]
+  },
+  {
+   "when": {
+    "type": "loot",
+    "nameRe": "(?i)\\b(scrap|wreck|debris|junk|broken)\\b"
+   },
+   "categories": [
+    "salvage"
+   ]
+  },
+  {
+   "when": {
+    "type": "loot",
+    "rarityIn": [
+     "rare",
+     "veryRare",
+     "legendary",
+     "artifact"
+    ]
+   },
+   "categories": [
+    "relic"
+   ]
+  },
+  {
+   "when": {
+    "type": "loot"
+   },
+   "categories": [
+    "material"
+   ]
+  }
+ ],
+ "items": [
+  {
+   "id": "res:promethium-jug",
+   "name": "Promethium Jug",
+   "img": "modules/ssv-silver-gull-shop/assets/items/promethium-jug.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 15.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Dirty salvaged thruster fuel in a dented jug.",
+   "res": {
+    "kind": "fuel",
+    "amount": 50,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:deuterium-slug",
+   "name": "Deuterium Slug",
+   "img": "modules/ssv-silver-gull-shop/assets/items/deuterium-slug.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 18.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Compact fusion pellet, standard sub-light fuel.",
+   "res": {
+    "kind": "fuel",
+    "amount": 60,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:solar-wind-condensate",
+   "name": "Solar-Wind Condensate",
+   "img": "modules/ssv-silver-gull-shop/assets/items/solar-wind-condensate.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 22.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Stellar wind bottled at a collector array.",
+   "res": {
+    "kind": "fuel",
+    "amount": 75,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:ceruleum-fuel-rod",
+   "name": "Ceruleum Fuel Rod",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ceruleum-fuel-rod.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 34.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Refined ferrocrystal rod for the thruster conduits.",
+   "res": {
+    "kind": "fuel",
+    "amount": 100,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:hyperfold-half-cell",
+   "name": "Hyperfold Half-Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/hyperfold-half-cell.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 43.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "A partial charge for the J-X engine.",
+   "res": {
+    "kind": "fuel",
+    "amount": 125,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:concord-naval-fuel-bar",
+   "name": "Concord Naval Fuel Bar",
+   "img": "modules/ssv-silver-gull-shop/assets/items/concord-naval-fuel-bar.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 52.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "UGC navy-issue fuel brick, clean and reliable.",
+   "res": {
+    "kind": "fuel",
+    "amount": 150,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:tritium-canister",
+   "name": "Tritium Canister",
+   "img": "modules/ssv-silver-gull-shop/assets/items/tritium-canister.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 60.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Pressurized tritium for a hot, steady burn.",
+   "res": {
+    "kind": "fuel",
+    "amount": 175,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:cryo-slush-tank",
+   "name": "Cryo-Slush Tank",
+   "img": "modules/ssv-silver-gull-shop/assets/items/cryo-slush-tank.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 84.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A whole tank of liquid-hydrogen slush.",
+   "res": {
+    "kind": "fuel",
+    "amount": 200,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:reclaimed-plasma-drum",
+   "name": "Reclaimed Plasma Drum",
+   "img": "modules/ssv-silver-gull-shop/assets/items/reclaimed-plasma-drum.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 94.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Plasma fuel siphoned from a derelict.",
+   "res": {
+    "kind": "fuel",
+    "amount": 225,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:hyperfold-fuel-cell",
+   "name": "Hyperfold Fuel Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/hyperfold-fuel-cell.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 105.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A full charge for the J-X Hyperfold engine.",
+   "res": {
+    "kind": "fuel",
+    "amount": 250,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:verdite-fuel-brick",
+   "name": "Verdite Fuel Brick",
+   "img": "modules/ssv-silver-gull-shop/assets/items/verdite-fuel-brick.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 126.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Reactive verdite pressed into a dense burn-brick.",
+   "res": {
+    "kind": "fuel",
+    "amount": 300,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:promethium-core-drum",
+   "name": "Promethium Core Drum",
+   "img": "modules/ssv-silver-gull-shop/assets/items/promethium-core-drum.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 168.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A heavy reinforced drum around a promethium core.",
+   "res": {
+    "kind": "fuel",
+    "amount": 400,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:antimatter-thimble",
+   "name": "Antimatter Thimble",
+   "img": "modules/ssv-silver-gull-shop/assets/items/antimatter-thimble.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 210.0,
+   "categories": [
+    "fuel"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A speck of contained antimatter — fills the tank; handle carefully.",
+   "res": {
+    "kind": "fuel",
+    "amount": 500,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:ancient-fold-ember",
+   "name": "Ancient Fold-Ember",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-fold-ember.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 540.0,
+   "categories": [
+    "fuel",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An ancient fuel relic that over-fuels the tank past its limit.",
+   "res": {
+    "kind": "fuel",
+    "amount": 600,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "res:ancient-core-sliver",
+   "name": "Ancient Core Sliver",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-core-sliver.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 720.0,
+   "categories": [
+    "fuel",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "A shard of ancient tech that floods the tank far past max.",
+   "res": {
+    "kind": "fuel",
+    "amount": 800,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "res:ancient-singularity-flask",
+   "name": "Ancient Singularity Flask",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-singularity-flask.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 900.0,
+   "categories": [
+    "fuel",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An ancient vessel holding a fold-singularity; a colossal over-fuel.",
+   "res": {
+    "kind": "fuel",
+    "amount": 1000,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "res:static-jar",
+   "name": "Static Jar",
+   "img": "modules/ssv-silver-gull-shop/assets/items/static-jar.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 14.0,
+   "categories": [
+    "power"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Gobby's makeshift capacitor in an old booze jar.",
+   "res": {
+    "kind": "power",
+    "amount": 40,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:aux-power-cell",
+   "name": "Aux Power Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/aux-power-cell.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 21.0,
+   "categories": [
+    "power"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Small stored auxiliary charge.",
+   "res": {
+    "kind": "power",
+    "amount": 60,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:salvaged-reactor-slug",
+   "name": "Salvaged Reactor Slug",
+   "img": "modules/ssv-silver-gull-shop/assets/items/salvaged-reactor-slug.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 26.0,
+   "categories": [
+    "power"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "A spent-but-warm slug pulled from a wreck.",
+   "res": {
+    "kind": "power",
+    "amount": 75,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:ion-battery-pack",
+   "name": "Ion Battery Pack",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ion-battery-pack.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 40.0,
+   "categories": [
+    "power"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Rechargeable ion pack, ship-standard.",
+   "res": {
+    "kind": "power",
+    "amount": 100,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:nebula-charge-crystal",
+   "name": "Nebula Charge Crystal",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nebula-charge-crystal.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 50.0,
+   "categories": [
+    "power"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "A crystal charged in a nebula's field.",
+   "res": {
+    "kind": "power",
+    "amount": 125,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:concord-charge-coil",
+   "name": "Concord Charge Coil",
+   "img": "modules/ssv-silver-gull-shop/assets/items/concord-charge-coil.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 60.0,
+   "categories": [
+    "power"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "UGC-standard high-density charge coil.",
+   "res": {
+    "kind": "power",
+    "amount": 150,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:plasmoid-bio-battery",
+   "name": "Plasmoid Bio-Battery",
+   "img": "modules/ssv-silver-gull-shop/assets/items/plasmoid-bio-battery.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 60.0,
+   "categories": [
+    "power"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "A gel-cell G.L.I.M.M. can top off himself.",
+   "res": {
+    "kind": "power",
+    "amount": 150,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:capacitor-bank",
+   "name": "Capacitor Bank",
+   "img": "modules/ssv-silver-gull-shop/assets/items/capacitor-bank.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 86.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Bank of fast-discharge capacitors.",
+   "res": {
+    "kind": "power",
+    "amount": 175,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:graviton-accumulator",
+   "name": "Graviton Accumulator",
+   "img": "modules/ssv-silver-gull-shop/assets/items/graviton-accumulator.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 98.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Stores charge in a graviton lattice.",
+   "res": {
+    "kind": "power",
+    "amount": 200,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:quantum-cell",
+   "name": "Quantum Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/quantum-cell.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 110.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Quantum-stacked cell, dense and stable.",
+   "res": {
+    "kind": "power",
+    "amount": 225,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:superconductor-flywheel",
+   "name": "Superconductor Flywheel",
+   "img": "modules/ssv-silver-gull-shop/assets/items/superconductor-flywheel.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 135.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Spun-up flywheel dumping stored current.",
+   "res": {
+    "kind": "power",
+    "amount": 275,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:fusion-battery",
+   "name": "Fusion Battery",
+   "img": "modules/ssv-silver-gull-shop/assets/items/fusion-battery.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 171.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A compact module around a caged miniature sun.",
+   "res": {
+    "kind": "power",
+    "amount": 350,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:zero-point-cell",
+   "name": "Zero-Point Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/zero-point-cell.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 245.0,
+   "categories": [
+    "power"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Draws on vacuum energy — fills the whole bank.",
+   "res": {
+    "kind": "power",
+    "amount": 500,
+    "overcharge": false
+   }
+  },
+  {
+   "id": "res:ancient-charge-vault",
+   "name": "Ancient Charge Vault",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-charge-vault.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 630.0,
+   "categories": [
+    "power",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An ancient vault that overcharges the bank past its limit.",
+   "res": {
+    "kind": "power",
+    "amount": 600,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "res:unknown-ancient-power-core",
+   "name": "Unknown Ancient Power Core",
+   "img": "modules/ssv-silver-gull-shop/assets/items/unknown-ancient-power-core.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 788.0,
+   "categories": [
+    "power",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An unknown ancient core; ASTRA recognizes the make. Overcharges far past max.",
+   "res": {
+    "kind": "power",
+    "amount": 750,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "res:ancient-resonance-cell",
+   "name": "Ancient Resonance Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-resonance-cell.webp",
+   "type": "loot",
+   "rarity": "artifact",
+   "basePriceGp": 1050.0,
+   "categories": [
+    "power",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An ancient resonance cell; a colossal overcharge that runs the bank hot.",
+   "res": {
+    "kind": "power",
+    "amount": 1000,
+    "overcharge": true
+   }
+  },
+  {
+   "id": "custom:vacc-suit-hull-patch",
+   "name": "Vacc-Suit Hull Patch",
+   "img": "modules/ssv-silver-gull-shop/assets/items/vacc-suit-hull-patch.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 12.0,
+   "categories": [
+    "vaccsuit",
+    "gear"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Self-sealing composite patch for hull breaches and torn vacc-suits."
+  },
+  {
+   "id": "custom:boarding-cutlass",
+   "name": "Boarding Cutlass",
+   "img": "modules/ssv-silver-gull-shop/assets/items/boarding-cutlass.webp",
+   "type": "weapon",
+   "rarity": "common",
+   "basePriceGp": 15.0,
+   "categories": [
+    "weapon"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "A short, heavy blade favoured for tight-corridor boarding actions."
+  },
+  {
+   "id": "custom:emergency-vacc-suit",
+   "name": "Emergency Vacc-Suit",
+   "img": "modules/ssv-silver-gull-shop/assets/items/emergency-vacc-suit.webp",
+   "type": "equipment",
+   "rarity": "uncommon",
+   "basePriceGp": 120.0,
+   "categories": [
+    "vaccsuit",
+    "armour"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Sealed emergency EVA suit for vacuum work and hull breaches."
+  },
+  {
+   "id": "custom:oxygen-canister",
+   "name": "Oxygen Canister",
+   "img": "modules/ssv-silver-gull-shop/assets/items/oxygen-canister.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 8.0,
+   "categories": [
+    "vaccsuit",
+    "gear"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "Compressed breathing-air cylinder for EVA and emergencies."
+  },
+  {
+   "id": "custom:titanium-ore",
+   "name": "Titanium Ore",
+   "img": "modules/ssv-silver-gull-shop/assets/items/titanium-ore.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 5.0,
+   "categories": [
+    "ore",
+    "material"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "Raw titanium ore; feedstock the drones smelt for hull-plating repairs."
+  },
+  {
+   "id": "custom:alloy-scrap",
+   "name": "Alloy Scrap",
+   "img": "modules/ssv-silver-gull-shop/assets/items/alloy-scrap.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 2.0,
+   "categories": [
+    "salvage",
+    "material"
+   ],
+   "par": 30,
+   "stockWeight": 1.0,
+   "desc": "Reclaimed alloy scrap the repair drones melt down for hull work."
+  },
+  {
+   "id": "custom:verdite-shard",
+   "name": "Verdite Shard",
+   "img": "modules/ssv-silver-gull-shop/assets/items/verdite-shard.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 75.0,
+   "categories": [
+    "material",
+    "valuable"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A luminescent-green Satedan fuel mineral; a rare sample."
+  },
+  {
+   "id": "custom:omni-spanner",
+   "name": "Engineer's Omni-Spanner",
+   "img": "modules/ssv-silver-gull-shop/assets/items/omni-spanner.webp",
+   "type": "tool",
+   "rarity": "uncommon",
+   "basePriceGp": 45.0,
+   "categories": [
+    "tool",
+    "shippart"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Multi-configuration powered spanner for shipboard repairs."
+  },
+  {
+   "id": "custom:nav-scanner",
+   "name": "Portable Nav-Scanner",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nav-scanner.webp",
+   "type": "tool",
+   "rarity": "uncommon",
+   "basePriceGp": 90.0,
+   "categories": [
+    "tool",
+    "shippart"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Handheld sensor unit for local scans and navigation."
+  },
+  {
+   "id": "custom:med-gel-stim",
+   "name": "Med-Gel Trauma Stim",
+   "img": "modules/ssv-silver-gull-shop/assets/items/med-gel-stim.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 30.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Single-use trauma injector that seals wounds with med-gel."
+  },
+  {
+   "id": "custom:gobbys-tequila",
+   "name": "Gobby's Reserve Tequila",
+   "img": "modules/ssv-silver-gull-shop/assets/items/gobbys-tequila.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 12.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Gobby's signature agave spirit; flammable, in the right hands."
+  },
+  {
+   "id": "custom:tortle-shell-rum",
+   "name": "Tortle-Shell Rum",
+   "img": "modules/ssv-silver-gull-shop/assets/items/tortle-shell-rum.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 10.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Dark spiced rum aged in a tortle-shell cask."
+  },
+  {
+   "id": "custom:silt-spire-sake",
+   "name": "Silt-Spire Sake",
+   "img": "modules/ssv-silver-gull-shop/assets/items/silt-spire-sake.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 18.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Delicate rice wine from Gobby's home monastery."
+  },
+  {
+   "id": "custom:terran-navy-rum",
+   "name": "Terran Navy Rum",
+   "img": "modules/ssv-silver-gull-shop/assets/items/terran-navy-rum.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 6.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Standard-issue naval rum ration."
+  },
+  {
+   "id": "custom:verdite-moonshine",
+   "name": "Verdite Moonshine",
+   "img": "modules/ssv-silver-gull-shop/assets/items/verdite-moonshine.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 9.0,
+   "categories": [
+    "drink",
+    "contraband"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Glowing-green rotgut distilled near verdite deposits. Risky."
+  },
+  {
+   "id": "custom:plasmoid-fizz",
+   "name": "Plasmoid Fizz",
+   "img": "modules/ssv-silver-gull-shop/assets/items/plasmoid-fizz.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 4.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "A gelatinous fizzing novelty drink; G.L.I.M.M.-approved."
+  },
+  {
+   "id": "custom:asteroid-ice-vodka",
+   "name": "Asteroid-Ice Vodka",
+   "img": "modules/ssv-silver-gull-shop/assets/items/asteroid-ice-vodka.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 8.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Clean vodka cut with meltwater from asteroid ice."
+  },
+  {
+   "id": "custom:nebula-wine-red",
+   "name": "Nebula Wine, Red",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nebula-wine-red.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 22.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "A deep red vintage with a faint stellar shimmer."
+  },
+  {
+   "id": "custom:nebula-wine-white",
+   "name": "Nebula Wine, White",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nebula-wine-white.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 20.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "A crisp pale wine with a faint stellar shimmer."
+  },
+  {
+   "id": "custom:hyperfold-whiskey",
+   "name": "Hyperfold Whiskey",
+   "img": "modules/ssv-silver-gull-shop/assets/items/hyperfold-whiskey.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 25.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Smoky amber whiskey; folds go down smoother after one."
+  },
+  {
+   "id": "custom:bugbear-black-ale",
+   "name": "Bugbear Black Ale",
+   "img": "modules/ssv-silver-gull-shop/assets/items/bugbear-black-ale.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 3.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "A heavy, bitter black ale — Baldy's preferred."
+  },
+  {
+   "id": "custom:concord-lager",
+   "name": "Concord Lager",
+   "img": "modules/ssv-silver-gull-shop/assets/items/concord-lager.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 1.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 12,
+   "stockWeight": 1.0,
+   "desc": "Mass-market UGC lager in a ration can."
+  },
+  {
+   "id": "custom:rift-berry-cider",
+   "name": "Rift-Berry Cider",
+   "img": "modules/ssv-silver-gull-shop/assets/items/rift-berry-cider.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 5.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Tart sparkling cider from off-world rift-berries."
+  },
+  {
+   "id": "custom:void-spiced-brandy",
+   "name": "Void-Spiced Brandy",
+   "img": "modules/ssv-silver-gull-shop/assets/items/void-spiced-brandy.webp",
+   "type": "consumable",
+   "rarity": "rare",
+   "basePriceGp": 30.0,
+   "categories": [
+    "drink",
+    "luxury"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A warming, heavily spiced brandy."
+  },
+  {
+   "id": "custom:cadets-grog",
+   "name": "Cadet's Cheap Grog",
+   "img": "modules/ssv-silver-gull-shop/assets/items/cadets-grog.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 0.5,
+   "categories": [
+    "drink"
+   ],
+   "par": 12,
+   "stockWeight": 1.0,
+   "desc": "The training-ship rotgut. Cheap, strong, regrettable."
+  },
+  {
+   "id": "custom:meteor-mead",
+   "name": "Meteor Mead",
+   "img": "modules/ssv-silver-gull-shop/assets/items/meteor-mead.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 7.0,
+   "categories": [
+    "drink"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Honeyed mead with a smoky mineral finish."
+  },
+  {
+   "id": "custom:navy-ration-pack",
+   "name": "Terran Navy Ration Pack",
+   "img": "modules/ssv-silver-gull-shop/assets/items/navy-ration-pack.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 2.0,
+   "categories": [
+    "food"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "A full flavoured field-ration pack; a step up from bars."
+  },
+  {
+   "id": "custom:protein-paste-tube",
+   "name": "Protein-Paste Tube",
+   "img": "modules/ssv-silver-gull-shop/assets/items/protein-paste-tube.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 0.4,
+   "categories": [
+    "food"
+   ],
+   "par": 24,
+   "stockWeight": 1.0,
+   "desc": "Squeezable nutrient paste. Sustaining, not enjoyable."
+  },
+  {
+   "id": "custom:meal-brick",
+   "name": "Freeze-Dried Meal Brick",
+   "img": "modules/ssv-silver-gull-shop/assets/items/meal-brick.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 1.0,
+   "categories": [
+    "food"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "Just add water; a full meal expands from a brick."
+  },
+  {
+   "id": "custom:nutrient-bar",
+   "name": "Nutrient Bar",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nutrient-bar.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 0.3,
+   "categories": [
+    "food"
+   ],
+   "par": 30,
+   "stockWeight": 1.0,
+   "desc": "Dense ration bar; a day's calories in a wrapper."
+  },
+  {
+   "id": "custom:gobbys-stew",
+   "name": "Gobby's Stew",
+   "img": "modules/ssv-silver-gull-shop/assets/items/gobbys-stew.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 6.0,
+   "categories": [
+    "food",
+    "luxury"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A big pot of Gobby's ever-simmering ship stew."
+  },
+  {
+   "id": "custom:fresh-print-fruit",
+   "name": "Fresh-Print Fruit",
+   "img": "modules/ssv-silver-gull-shop/assets/items/fresh-print-fruit.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 0.6,
+   "categories": [
+    "food"
+   ],
+   "par": 12,
+   "stockWeight": 1.0,
+   "desc": "Food-printer fruit; convincing, mostly."
+  },
+  {
+   "id": "custom:caf-pods",
+   "name": "Caf Pods",
+   "img": "modules/ssv-silver-gull-shop/assets/items/caf-pods.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 0.5,
+   "categories": [
+    "food"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "Single-serve caf pods for the ship's brewer."
+  },
+  {
+   "id": "custom:tortle-sea-greens",
+   "name": "Tortle Sea-Greens",
+   "img": "modules/ssv-silver-gull-shop/assets/items/tortle-sea-greens.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 2.0,
+   "categories": [
+    "food"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "Dried edible sea-greens Gobby packs by the crate."
+  },
+  {
+   "id": "custom:water-ration",
+   "name": "Water Ration",
+   "img": "modules/ssv-silver-gull-shop/assets/items/water-ration.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 2.0,
+   "categories": [
+    "water",
+    "food"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "A sealed litre of drinkable water. On Marrow, this is money.",
+   "art": "a sealed clear plastic water ration pouch with a blue cap and a printed volume band"
+  },
+  {
+   "id": "custom:ice-block",
+   "name": "Cryo Ice Block",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ice-block.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 4.0,
+   "categories": [
+    "water"
+   ],
+   "par": 12,
+   "stockWeight": 1.0,
+   "desc": "A hauled block of mining ice; melts down to clean water.",
+   "art": "a rough block of pale blue mining ice banded with a metal carry strap, faintly frosted"
+  },
+  {
+   "id": "custom:recycler-cartridge",
+   "name": "Recycler Cartridge",
+   "img": "modules/ssv-silver-gull-shop/assets/items/recycler-cartridge.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 18.0,
+   "categories": [
+    "water",
+    "gear"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Filter cartridge for a suit or galley water recycler. Wears out fast.",
+   "art": "a cylindrical water-recycler filter cartridge, white housing with a blue fluid window and screw threads"
+  },
+  {
+   "id": "custom:condenser-still",
+   "name": "Atmospheric Condenser Still",
+   "img": "modules/ssv-silver-gull-shop/assets/items/condenser-still.webp",
+   "type": "tool",
+   "rarity": "uncommon",
+   "basePriceGp": 60.0,
+   "categories": [
+    "water",
+    "tool"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Pulls drinkable water out of thin, bad air. Slowly.",
+   "art": "a compact folding atmospheric water condenser with a collection bottle, coiled pipes and a small solar fin"
+  },
+  {
+   "id": "custom:polymorphic-polymer",
+   "name": "Polymorphic Polymer",
+   "img": "modules/ssv-silver-gull-shop/assets/items/polymorphic-polymer.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 110.0,
+   "categories": [
+    "material",
+    "shippart"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Shape-holding smart polymer; a turret mount cannot be built without it.",
+   "art": "a slab of iridescent shape-memory smart polymer, semi-translucent and slowly rippling, on a metal frame"
+  },
+  {
+   "id": "custom:quantum-relay",
+   "name": "Quantum Relay",
+   "img": "modules/ssv-silver-gull-shop/assets/items/quantum-relay.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 140.0,
+   "categories": [
+    "material",
+    "shippart"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Entangled targeting relay. Fire-control systems are useless without one.",
+   "art": "a small sealed quantum relay module, a gold-cased cube with a glowing blue entanglement core and pin contacts"
+  },
+  {
+   "id": "custom:refined-thermite",
+   "name": "Hyper-Dense Refined Thermite",
+   "img": "modules/ssv-silver-gull-shop/assets/items/refined-thermite.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 95.0,
+   "categories": [
+    "material",
+    "shippart"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Cindermoor-grade thermite, compressed until it is almost a metal.",
+   "art": "a dense dark-grey thermite brick with orange glowing seams and hazard banding"
+  },
+  {
+   "id": "custom:ceruleum-ferrocrystal",
+   "name": "Ceruleum Ferrocrystal",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ceruleum-ferrocrystal.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 85.0,
+   "categories": [
+    "material",
+    "ore",
+    "valuable"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Blue-veined structural crystal; the Gull's hull and turret rings are cut from it.",
+   "art": "a cut structural crystal ingot, steel-grey shot through with glowing cerulean blue veins"
+  },
+  {
+   "id": "custom:hull-plate",
+   "name": "Ferrocrystal Hull Plate",
+   "img": "modules/ssv-silver-gull-shop/assets/items/hull-plate.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 40.0,
+   "categories": [
+    "shippart",
+    "material"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "A curved section of hull plating, cut to standard frame spacing.",
+   "art": "a curved starship hull plate section, blue-grey ferrocrystal with bolt holes and a scorched edge"
+  },
+  {
+   "id": "custom:seal-gasket",
+   "name": "Pressure Seal Gasket",
+   "img": "modules/ssv-silver-gull-shop/assets/items/seal-gasket.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 6.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 16,
+   "stockWeight": 1.0,
+   "desc": "Rings out an airlock or a cracked bulkhead seam.",
+   "art": "a thick black pressure seal gasket ring with a gold inner band"
+  },
+  {
+   "id": "custom:power-coupling",
+   "name": "Power Coupling",
+   "img": "modules/ssv-silver-gull-shop/assets/items/power-coupling.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 28.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "Heavy conduit coupling; the first thing to burn out under overcharge.",
+   "art": "a heavy starship power coupling, a short thick conduit with gold contact rings and ceramic insulators"
+  },
+  {
+   "id": "custom:coolant-loop",
+   "name": "Coolant Loop",
+   "img": "modules/ssv-silver-gull-shop/assets/items/coolant-loop.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 55.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Closed cryo loop for a reactor or a hard-firing turret.",
+   "art": "a coiled cryogenic coolant loop, chrome tubing frosted white with a blue fluid reservoir"
+  },
+  {
+   "id": "custom:thruster-nozzle",
+   "name": "Manoeuvring Thruster Nozzle",
+   "img": "modules/ssv-silver-gull-shop/assets/items/thruster-nozzle.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 130.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Replacement bell for an attitude thruster. Ships fly sideways without them.",
+   "art": "a starship manoeuvring thruster nozzle bell, scorched metal cone with mounting collar"
+  },
+  {
+   "id": "custom:sensor-array",
+   "name": "Sensor Array Module",
+   "img": "modules/ssv-silver-gull-shop/assets/items/sensor-array.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 260.0,
+   "categories": [
+    "shippart",
+    "tool"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Restores internal and short-range external sensing.",
+   "art": "a starship sensor array module, a flat panel of blue lenses and antenna stubs in a gold frame"
+  },
+  {
+   "id": "custom:gyro-stabiliser",
+   "name": "Gyro Stabiliser",
+   "img": "modules/ssv-silver-gull-shop/assets/items/gyro-stabiliser.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 300.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Keeps a hull from tumbling when the shields take a side hit.",
+   "art": "a starship gyro stabiliser, a heavy gimballed brass-and-steel flywheel assembly"
+  },
+  {
+   "id": "custom:turret-ring",
+   "name": "Turret Ring Mount",
+   "img": "modules/ssv-silver-gull-shop/assets/items/turret-ring.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 420.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "The bare rotating ring a turret bolts into. Six of these are still empty.",
+   "art": "a heavy circular turret ring mount, a toothed rotating bearing race in blue-grey metal"
+  },
+  {
+   "id": "custom:targeting-servo",
+   "name": "Targeting Servo",
+   "img": "modules/ssv-silver-gull-shop/assets/items/targeting-servo.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 180.0,
+   "categories": [
+    "shippart",
+    "tool"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Traverse motor and fire-control linkage for a gun mount.",
+   "art": "a compact targeting servo motor with a geared output shaft and a glowing status light"
+  },
+  {
+   "id": "custom:shield-emitter",
+   "name": "Shield Emitter Node",
+   "img": "modules/ssv-silver-gull-shop/assets/items/shield-emitter.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 350.0,
+   "categories": [
+    "shippart"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "One node of a deflector grid. The Gull's are all dark.",
+   "art": "a starship shield emitter node, a faceted blue crystal set in a gold emitter housing"
+  },
+  {
+   "id": "custom:slug-magazine",
+   "name": "Slug Magazine",
+   "img": "modules/ssv-silver-gull-shop/assets/items/slug-magazine.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 4.0,
+   "categories": [
+    "ammo"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "Standard kinetic rounds for a slug pistol or rifle.",
+   "art": "a boxed kinetic slug magazine with brass-tipped rounds visible through a slot"
+  },
+  {
+   "id": "custom:heavy-slugs",
+   "name": "Heavy Slug Box",
+   "img": "modules/ssv-silver-gull-shop/assets/items/heavy-slugs.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 12.0,
+   "categories": [
+    "ammo"
+   ],
+   "par": 12,
+   "stockWeight": 1.0,
+   "desc": "Armour-piercing rounds. Hard on the barrel, harder on the target.",
+   "art": "an open box of heavy armour-piercing slug rounds, dark steel with red tips"
+  },
+  {
+   "id": "custom:energy-cell-pack",
+   "name": "Weapon Energy Cell",
+   "img": "modules/ssv-silver-gull-shop/assets/items/energy-cell-pack.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 9.0,
+   "categories": [
+    "ammo",
+    "power"
+   ],
+   "par": 16,
+   "stockWeight": 1.0,
+   "desc": "Snap-in charge pack for an energy sidearm.",
+   "art": "a small snap-in weapon energy cell, a flat cartridge glowing teal along one edge"
+  },
+  {
+   "id": "custom:breaching-rounds",
+   "name": "Breaching Rounds",
+   "img": "modules/ssv-silver-gull-shop/assets/items/breaching-rounds.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 25.0,
+   "categories": [
+    "ammo",
+    "contraband"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Door-openers. Illegal on most orderly stations.",
+   "art": "a strip of heavy breaching shotgun shells, red casings with brass caps"
+  },
+  {
+   "id": "custom:frag-grenade",
+   "name": "Frag Grenade",
+   "img": "modules/ssv-silver-gull-shop/assets/items/frag-grenade.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 40.0,
+   "categories": [
+    "ammo",
+    "weapon",
+    "contraband"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Standard fragmentation grenade. Three are already aboard.",
+   "art": "a military fragmentation grenade, segmented olive body with a gold pin and lever"
+  },
+  {
+   "id": "custom:missile-pod",
+   "name": "Micro-Missile Pod",
+   "img": "modules/ssv-silver-gull-shop/assets/items/missile-pod.webp",
+   "type": "consumable",
+   "rarity": "rare",
+   "basePriceGp": 220.0,
+   "categories": [
+    "ammo",
+    "shippart"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Reload pod for a light ship-mounted launcher.",
+   "art": "a starship micro-missile reload pod, a boxed cluster of four small white missiles"
+  },
+  {
+   "id": "custom:bandage-wrap",
+   "name": "Trauma Wrap",
+   "img": "modules/ssv-silver-gull-shop/assets/items/bandage-wrap.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 3.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 20,
+   "stockWeight": 1.0,
+   "desc": "Self-adhering bandage that clots on contact.",
+   "art": "a rolled self-adhering trauma bandage in a sterile blue wrapper"
+  },
+  {
+   "id": "custom:antitox-shot",
+   "name": "Antitox Shot",
+   "img": "modules/ssv-silver-gull-shop/assets/items/antitox-shot.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 22.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Broad-spectrum antitoxin injector.",
+   "art": "a medical antitoxin auto-injector, a slim white syringe with a green fluid window"
+  },
+  {
+   "id": "custom:burn-gel",
+   "name": "Burn Gel Tube",
+   "img": "modules/ssv-silver-gull-shop/assets/items/burn-gel.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 14.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "For plasma flash and coolant burns. Every engine room has one.",
+   "art": "a squeezed tube of medical burn gel, white and orange with a blue cap"
+  },
+  {
+   "id": "custom:bone-knit",
+   "name": "Bone-Knit Ampoule",
+   "img": "modules/ssv-silver-gull-shop/assets/items/bone-knit.webp",
+   "type": "consumable",
+   "rarity": "rare",
+   "basePriceGp": 65.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Accelerated fracture repair. Extremely unpleasant.",
+   "art": "a glass medical ampoule of pale bone-knit serum in a padded case"
+  },
+  {
+   "id": "custom:rad-purge",
+   "name": "Rad-Purge Tabs",
+   "img": "modules/ssv-silver-gull-shop/assets/items/rad-purge.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 18.0,
+   "categories": [
+    "medical"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Chelating tablets for rift and reactor exposure.",
+   "art": "a blister strip of chalky rad-purge tablets with a radiation trefoil printed on the foil"
+  },
+  {
+   "id": "custom:surgery-kit",
+   "name": "Field Surgery Kit",
+   "img": "modules/ssv-silver-gull-shop/assets/items/surgery-kit.webp",
+   "type": "tool",
+   "rarity": "uncommon",
+   "basePriceGp": 120.0,
+   "categories": [
+    "medical",
+    "tool"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Clamps, sealant and a very steady hand.",
+   "art": "an open field surgery kit case with sterile instruments in foam and a folded blue cloth"
+  },
+  {
+   "id": "custom:grav-line",
+   "name": "Grav-Line Spool",
+   "img": "modules/ssv-silver-gull-shop/assets/items/grav-line.webp",
+   "type": "equipment",
+   "rarity": "common",
+   "basePriceGp": 35.0,
+   "categories": [
+    "gear",
+    "tool"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Fifty metres of line with a magnetic anchor. Works in zero g.",
+   "art": "a spool of thin silver grav-line with a magnetic anchor hook clipped to it"
+  },
+  {
+   "id": "custom:glow-rods",
+   "name": "Glow Rod Bundle",
+   "img": "modules/ssv-silver-gull-shop/assets/items/glow-rods.webp",
+   "type": "consumable",
+   "rarity": "common",
+   "basePriceGp": 2.0,
+   "categories": [
+    "gear"
+   ],
+   "par": 24,
+   "stockWeight": 1.0,
+   "desc": "Snap-and-shake light sticks. Six hours each.",
+   "art": "a bundle of glowing teal chemical light rods bound with a strap"
+  },
+  {
+   "id": "custom:mag-boots",
+   "name": "Mag-Boots",
+   "img": "modules/ssv-silver-gull-shop/assets/items/mag-boots.webp",
+   "type": "equipment",
+   "rarity": "uncommon",
+   "basePriceGp": 70.0,
+   "categories": [
+    "gear",
+    "vaccsuit"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Hull-walking boots. Slow, but you stay attached.",
+   "art": "a pair of heavy magnetic hull-walking boots, grey with gold sole plates and status lights"
+  },
+  {
+   "id": "custom:tool-harness",
+   "name": "Tool Harness",
+   "img": "modules/ssv-silver-gull-shop/assets/items/tool-harness.webp",
+   "type": "equipment",
+   "rarity": "common",
+   "basePriceGp": 25.0,
+   "categories": [
+    "gear",
+    "tool"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Chest rig that keeps a spanner from drifting off.",
+   "art": "a worn canvas tool harness with loops, clips and a small pouch"
+  },
+  {
+   "id": "custom:portable-welder",
+   "name": "Portable Arc Welder",
+   "img": "modules/ssv-silver-gull-shop/assets/items/portable-welder.webp",
+   "type": "tool",
+   "rarity": "uncommon",
+   "basePriceGp": 85.0,
+   "categories": [
+    "tool",
+    "shippart"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Cuts salvage apart and puts hull plate back together.",
+   "art": "a handheld arc welder with a glowing blue tip, trigger grip and a coiled cable"
+  },
+  {
+   "id": "custom:comm-beacon",
+   "name": "Distress Beacon",
+   "img": "modules/ssv-silver-gull-shop/assets/items/comm-beacon.webp",
+   "type": "equipment",
+   "rarity": "uncommon",
+   "basePriceGp": 55.0,
+   "categories": [
+    "gear",
+    "tool"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Screams your position at anyone listening. Use with care.",
+   "art": "a rugged orange distress beacon puck with a stubby antenna and a red flashing light"
+  },
+  {
+   "id": "custom:cargo-crate",
+   "name": "Sealed Cargo Crate",
+   "img": "modules/ssv-silver-gull-shop/assets/items/cargo-crate.webp",
+   "type": "container",
+   "rarity": "common",
+   "basePriceGp": 15.0,
+   "categories": [
+    "gear"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "Standard sealed crate. What is in it is your business.",
+   "art": "a sealed grey starship cargo crate with blue banding and a latched lid"
+  },
+  {
+   "id": "custom:helmet-seal",
+   "name": "Helmet Seal Ring",
+   "img": "modules/ssv-silver-gull-shop/assets/items/helmet-seal.webp",
+   "type": "equipment",
+   "rarity": "common",
+   "basePriceGp": 30.0,
+   "categories": [
+    "vaccsuit"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "The part that fails first, and fatally.",
+   "art": "a vacc-suit helmet seal ring, a white collar ring with a gold locking lug"
+  },
+  {
+   "id": "custom:eva-tether",
+   "name": "EVA Tether",
+   "img": "modules/ssv-silver-gull-shop/assets/items/eva-tether.webp",
+   "type": "equipment",
+   "rarity": "common",
+   "basePriceGp": 20.0,
+   "categories": [
+    "vaccsuit",
+    "gear"
+   ],
+   "par": 10,
+   "stockWeight": 1.0,
+   "desc": "Twenty metres of tether and two carabiners between you and forever.",
+   "art": "a coiled orange EVA safety tether with two steel carabiners"
+  },
+  {
+   "id": "custom:suit-heater",
+   "name": "Suit Heater Core",
+   "img": "modules/ssv-silver-gull-shop/assets/items/suit-heater.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 26.0,
+   "categories": [
+    "vaccsuit"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Keeps a suit survivable on the cold side of a hull.",
+   "art": "a small suit heater core cartridge glowing warm orange in a metal sleeve"
+  },
+  {
+   "id": "custom:void-plate-vest",
+   "name": "Void-Plate Vest",
+   "img": "modules/ssv-silver-gull-shop/assets/items/void-plate-vest.webp",
+   "type": "equipment",
+   "rarity": "uncommon",
+   "basePriceGp": 180.0,
+   "categories": [
+    "armour",
+    "vaccsuit"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Composite vest rated for shrapnel and micrometeorite alike.",
+   "art": "a composite armoured vest in blue-grey plates with gold trim, hung on a stand"
+  },
+  {
+   "id": "custom:composite-carapace",
+   "name": "Composite Carapace",
+   "img": "modules/ssv-silver-gull-shop/assets/items/composite-carapace.webp",
+   "type": "equipment",
+   "rarity": "rare",
+   "basePriceGp": 420.0,
+   "categories": [
+    "armour"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "Full boarding-action plate. Heavy, loud, effective.",
+   "art": "a full suit of sci-fi composite carapace armour, blue-grey plate with gold edging"
+  },
+  {
+   "id": "custom:slug-pistol",
+   "name": "Slug Pistol",
+   "img": "modules/ssv-silver-gull-shop/assets/items/slug-pistol.webp",
+   "type": "weapon",
+   "rarity": "common",
+   "basePriceGp": 95.0,
+   "categories": [
+    "weapon"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "Ubiquitous kinetic sidearm. Salvaged ones are everywhere.",
+   "art": "a compact kinetic slug pistol, blue-grey frame with a gold slide and worn grip"
+  },
+  {
+   "id": "custom:hunting-rifle",
+   "name": "Hunting Rifle",
+   "img": "modules/ssv-silver-gull-shop/assets/items/hunting-rifle.webp",
+   "type": "weapon",
+   "rarity": "common",
+   "basePriceGp": 160.0,
+   "categories": [
+    "weapon"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Long kinetic rifle, favoured on frontier worlds.",
+   "art": "a long-barrelled hunting rifle with a wooden stock and a small optical scope"
+  },
+  {
+   "id": "custom:arc-cutter",
+   "name": "Arc Cutter",
+   "img": "modules/ssv-silver-gull-shop/assets/items/arc-cutter.webp",
+   "type": "weapon",
+   "rarity": "uncommon",
+   "basePriceGp": 210.0,
+   "categories": [
+    "weapon",
+    "tool"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "A salvage tool that people keep using on each other.",
+   "art": "an industrial arc cutter weapon with a glowing teal blade edge and a heavy grip"
+  },
+  {
+   "id": "custom:concord-bond",
+   "name": "Concord Bearer Bond",
+   "img": "modules/ssv-silver-gull-shop/assets/items/concord-bond.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 250.0,
+   "categories": [
+    "valuable",
+    "document"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "UGC scrip. Worth something wherever the Concord still means anything.",
+   "art": "an engraved bearer bond certificate with blue guilloche printing and a gold seal"
+  },
+  {
+   "id": "custom:cut-gemstone",
+   "name": "Cut Gemstone",
+   "img": "modules/ssv-silver-gull-shop/assets/items/cut-gemstone.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 120.0,
+   "categories": [
+    "valuable"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Small, portable, and accepted absolutely everywhere.",
+   "art": "a single large cut gemstone, deep blue and brilliantly faceted"
+  },
+  {
+   "id": "custom:ancient-fragment",
+   "name": "Ancient Fragment",
+   "img": "modules/ssv-silver-gull-shop/assets/items/ancient-fragment.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 400.0,
+   "categories": [
+    "relic",
+    "valuable"
+   ],
+   "par": 2,
+   "stockWeight": 1.0,
+   "desc": "A palm-sized piece of something far older than the Concord.",
+   "art": "a broken fragment of ancient alien technology, dark metal etched with glowing gold glyphs"
+  },
+  {
+   "id": "custom:rift-dust",
+   "name": "Rift Dust",
+   "img": "modules/ssv-silver-gull-shop/assets/items/rift-dust.webp",
+   "type": "consumable",
+   "rarity": "rare",
+   "basePriceGp": 90.0,
+   "categories": [
+    "contraband"
+   ],
+   "par": 4,
+   "stockWeight": 1.0,
+   "desc": "Scraped from a rift boundary. Illegal, addictive, and it hums.",
+   "art": "a small sealed vial of faintly glowing violet rift dust"
+  },
+  {
+   "id": "custom:stolen-charts",
+   "name": "Stolen Nav-Charts",
+   "img": "modules/ssv-silver-gull-shop/assets/items/stolen-charts.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 200.0,
+   "categories": [
+    "contraband",
+    "document"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Someone else's route data, sold twice over.",
+   "art": "a rolled bundle of stolen navigation charts with a broken wax-and-foil seal"
+  },
+  {
+   "id": "custom:unlicensed-core",
+   "name": "Unlicensed AI Core",
+   "img": "modules/ssv-silver-gull-shop/assets/items/unlicensed-core.webp",
+   "type": "loot",
+   "rarity": "rare",
+   "basePriceGp": 900.0,
+   "categories": [
+    "contraband",
+    "relic"
+   ],
+   "par": 1,
+   "stockWeight": 1.0,
+   "desc": "An unshackled thinking machine. The Concord executes people for these.",
+   "art": "an unlicensed AI core, a black cube with a restless amber light inside a cracked casing"
+  },
+  {
+   "id": "custom:bounty-writ",
+   "name": "Bounty Writ",
+   "img": "modules/ssv-silver-gull-shop/assets/items/bounty-writ.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 50.0,
+   "categories": [
+    "document"
+   ],
+   "par": 6,
+   "stockWeight": 1.0,
+   "desc": "A name, a face, and a number.",
+   "art": "a printed bounty writ sheet with a portrait panel and a red stamped seal"
+  },
+  {
+   "id": "custom:trade-permit",
+   "name": "Trade Permit",
+   "img": "modules/ssv-silver-gull-shop/assets/items/trade-permit.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 75.0,
+   "categories": [
+    "document"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Lets you unload cargo without a conversation.",
+   "art": "an official trade permit card with holographic banding and a gold crest"
+  },
+  {
+   "id": "custom:star-chart",
+   "name": "Sector Star Chart",
+   "img": "modules/ssv-silver-gull-shop/assets/items/star-chart.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 140.0,
+   "categories": [
+    "document",
+    "tool"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "One sector, properly surveyed. Worth more than it looks.",
+   "art": "a rolled star chart showing a spiral of star systems in blue and gold ink"
+  },
+  {
+   "id": "custom:nav-core-salvage",
+   "name": "Salvaged Nav Core",
+   "img": "modules/ssv-silver-gull-shop/assets/items/nav-core-salvage.webp",
+   "type": "loot",
+   "rarity": "common",
+   "basePriceGp": 65.0,
+   "categories": [
+    "salvage",
+    "shippart"
+   ],
+   "par": 8,
+   "stockWeight": 1.0,
+   "desc": "Pulled from a dead ship. Might still hold someone's last route.",
+   "art": "a scorched salvaged navigation computer core, a dented box with torn cabling"
+  },
+  {
+   "id": "custom:spice-tin",
+   "name": "Spice Tin",
+   "img": "modules/ssv-silver-gull-shop/assets/items/spice-tin.webp",
+   "type": "consumable",
+   "rarity": "uncommon",
+   "basePriceGp": 30.0,
+   "categories": [
+    "luxury",
+    "food"
+   ],
+   "par": 5,
+   "stockWeight": 1.0,
+   "desc": "Real spice, off a real planet. Gobby will pay over the odds.",
+   "art": "an ornate small spice tin, gold-lidded with deep red spice heaped inside"
+  },
+  {
+   "id": "custom:silk-bolt",
+   "name": "Bolt of Voidsilk",
+   "img": "modules/ssv-silver-gull-shop/assets/items/silk-bolt.webp",
+   "type": "loot",
+   "rarity": "uncommon",
+   "basePriceGp": 160.0,
+   "categories": [
+    "luxury",
+    "valuable"
+   ],
+   "par": 3,
+   "stockWeight": 1.0,
+   "desc": "Shimmering fabric that never quite settles on a colour.",
+   "art": "a rolled bolt of iridescent voidsilk fabric shifting between blue and violet"
+  }
+ ]
+}
