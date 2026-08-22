@@ -291,7 +291,8 @@ function drawList() {
   });
 }
 
-function openShop(id) {
+async function openShop(id) {
+  await loadCatalogue();
   const s = shopById(id);
   if (!s) return ui.notifications?.warn("That shop is gone.");
   if (!s.open && !game.user.isGM) return ui.notifications?.warn("That shop is shut.");
@@ -1126,11 +1127,17 @@ Hooks.once("init", () => {
     onChange: (v) => setConfig({ restockDays: v }),
   });
 
+  game.settings.register(MODULE_ID, "playerAccess", {
+    name: game.i18n.localize(`${MODULE_ID}.settings.playerAccess.name`),
+    hint: game.i18n.localize(`${MODULE_ID}.settings.playerAccess.hint`),
+    scope: "world", config: true, type: Boolean, default: false,
+  });
+
   game.keybindings.register(MODULE_ID, "open", {
     name: game.i18n.localize(`${MODULE_ID}.keybind.open.name`),
     hint: game.i18n.localize(`${MODULE_ID}.keybind.open.hint`),
     editable: [{ key: "KeyI" }],
-    onDown: () => { openShops(); return true; },
+    onDown: () => { if (canBrowseFreely()) openShops(); return true; },
   });
 });
 
@@ -1139,13 +1146,18 @@ async function setConfig(patch) {
   await game.settings.set(MODULE_ID, SET_CONFIG, { ...getConfig(), ...patch });
 }
 
+/* Players only get the shop list on their own when the GM allows it. With it off (the
+ * default) shops open solely through a settlement shopkeeper. GMs always have full access. */
+const canBrowseFreely = () => game.user.isGM || !!game.settings.get(MODULE_ID, "playerAccess");
+
 // The scene-control shape changed at v13: arrays of controls with array tools
 // became keyed objects with keyed tools. Handle both.
 Hooks.on("getSceneControlButtons", (controls) => {
   const tool = {
     name: "ssv-shops", title: game.i18n.localize(`${MODULE_ID}.control.title`),
-    icon: "fa-solid fa-cart-shopping", button: true, visible: true,
-    onClick: () => openShops(), onChange: () => openShops(), order: 99,
+    icon: "fa-solid fa-cart-shopping", button: true, visible: canBrowseFreely(),
+    onClick: () => { if (canBrowseFreely()) openShops(); },
+    onChange: () => { if (canBrowseFreely()) openShops(); }, order: 99,
   };
   try {
     if (Array.isArray(controls)) {

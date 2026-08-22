@@ -1475,6 +1475,26 @@
      "salvage-yard",
      2,
      "small"
+    ],
+    [
+     "cantina",
+     2,
+     "small"
+    ],
+    [
+     "medbay",
+     2,
+     "stall"
+    ],
+    [
+     "fuel-depot",
+     2,
+     "small"
+    ],
+    [
+     "fence",
+     1,
+     "stall"
     ]
    ]
   },

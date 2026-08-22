@@ -1,13 +1,13 @@
 {
   "id": "ssv-silver-gull-shop",
-  "title": "SSV Silver Gull \u2014 Shops & Trade",
+  "title": "SSV Silver Gull — Shops & Trade",
   "description": "Location-gated shops with generated stock, a living economy (region, scarcity and faction standing all move prices), a shared ship treasury alongside each character's purse, and GM authoring tools. Press I to open the shops available where the crew are docked.",
   "authors": [
     {
       "name": "Solly240"
     }
   ],
-  "version": "0.1.2",
+  "version": "0.1.3",
   "compatibility": {
     "minimum": "12",
     "verified": "14"

@@ -9,5 +9,7 @@
   "ssv-silver-gull-shop.settings.treasury.name": "Players may spend the ship treasury",
   "ssv-silver-gull-shop.settings.treasury.hint": "Turn off to make the shared purse GM-only; players can still spend their own coin.",
   "ssv-silver-gull-shop.settings.restock.name": "Restock interval (days)",
-  "ssv-silver-gull-shop.settings.restock.hint": "How long before a shop's stock and cash recover. Restocking happens when the GM opens the shop."
+  "ssv-silver-gull-shop.settings.restock.hint": "How long before a shop's stock and cash recover. Restocking happens when the GM opens the shop.",
+  "ssv-silver-gull-shop.settings.playerAccess.name": "Players may browse shops freely",
+  "ssv-silver-gull-shop.settings.playerAccess.hint": "Off by default: players cannot open the shop list with I or the toolbar button, and reach a shop only by clicking its shopkeeper in a settlement. The GM always has full access."
 }
